@@ -7,8 +7,8 @@ from taggit.managers import TaggableManager
 class Category(models.Model):
     name = models.CharField(max_length=250, unique=True)
 
-    def __str__(self):
-        return self.name
+    def __str__(self) -> str:
+        return f'{self.name}'
 
 
 class Film(models.Model):
@@ -27,8 +27,8 @@ class Film(models.Model):
     likes = models.ManyToManyField(User)
     tags = TaggableManager()
 
-    def __str__(self) -> models.CharField:
-        return self.title
+    def __str__(self) -> str:
+        return f'{self.title}'
 
     @property
     def total_likes(self) -> int:
@@ -45,5 +45,5 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     film = models.ForeignKey(Film, on_delete=models.CASCADE, related_name='comments')
 
-    def __str__(self) -> models.CharField:
-        return self.title
+    def __str__(self) -> str:
+        return f'{self.title}'
