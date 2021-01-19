@@ -140,8 +140,7 @@ dmypy.json
 cython_debug/
 .idea
 .idea/
-media/user_pics/*
-!media/book_pics/.gitkeep
-!media/user_pics/.gitkeep
+!media/profile_pics/.gitkeep
+!media/videos/.gitkeep
 *.pycache
 .pycache
