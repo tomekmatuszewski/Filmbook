@@ -1,1 +1,1 @@
-from .film_views import HomeView
+from .film_views import FilmListView

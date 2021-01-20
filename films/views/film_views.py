@@ -1,9 +1,14 @@
 from django.shortcuts import render
 
-from django.views.generic.base import TemplateView
+from django.views.generic import ListView
+from films.models import Film
 
 
-class HomeView(TemplateView):
+class FilmListView(ListView):
 
-    template_name = "home.html"
+    model = Film
+    template_name = "films/home.html"
+    context_object_name = "films"
     extra_context = {"title": "Home"}
+    ordering = ["-publication_date"]
+    paginate_by = 5

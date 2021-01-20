@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from taggit.managers import TaggableManager
-
+from django.utils import timezone
 
 class Category(models.Model):
     name = models.CharField(max_length=250, unique=True)
@@ -15,16 +15,16 @@ class Film(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField(max_length=500)
     isPublic = models.BooleanField()
-    publication_date = models.DateField()
+    publication_date = models.DateField(default=timezone.now)
     rating = models.DecimalField(max_digits=3, decimal_places=1)
     video = models.FileField(upload_to='videos')
-    views_number = models.IntegerField()
+    views_number = models.IntegerField(null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
 
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, related_name='films')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='films')
 
-    likes = models.ManyToManyField(User)
+    likes = models.ManyToManyField(User, blank=True, related_name="film_likes")
     tags = TaggableManager()
 
     def __str__(self) -> str:
