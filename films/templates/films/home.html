@@ -7,22 +7,43 @@
         <hr>
 
         {% for film in films %}
-            <article class="film-content">
-                    <div class="media-body">
-                        <div class="article-metadata">
-                            <img class="rounded-circle article-img" height="50px" width="50px" src="{{ film.author.profile.photo.url }}"/>
-                            <span class="article-author mr-2"><a  href="#">{{ film.author }}</a></span>
-                            <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
-                        </div>
+            {% if user.is_authenticated %}
+                <article class="film-content">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <img class="rounded-circle article-img" height="50px" width="50px" src="{{ film.author.profile.photo.url }}"/>
+                                <span class="article-author mr-2"><a  href="#">{{ film.author }}</a></span>
+                                <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
+                            </div>
 
-                        <hr>
-                        <p>{{ film.title }}</p>
-                        <video width='90%' height=90%' controls>
-                            <source src="{{ film.video.url }}" type="video/mp4">
-                        </video>
-                        <p>{{ film.description|truncatewords:80 }}</p>
-                    </div>
-            </article>
+                            <hr>
+                            <p>{{ film.title }}</p>
+                            <video width='90%' height=90%' controls>
+                                <source src="{{ film.video.url }}" type="video/mp4">
+                            </video>
+                            <p>{{ film.description|truncatewords:80 }}</p>
+                        </div>
+                </article>
+            {% else %}
+                {% if film.isPublic %}
+                    <article class="film-content">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <img class="rounded-circle article-img" height="50px" width="50px" src="{{ film.author.profile.photo.url }}"/>
+                                <span class="article-author mr-2"><a  href="#">{{ film.author }}</a></span>
+                                <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
+                            </div>
+
+                            <hr>
+                            <p>{{ film.title }}</p>
+                            <video width='90%' height=90%' controls>
+                                <source src="{{ film.video.url }}" type="video/mp4">
+                            </video>
+
+                        </div>
+                    </article>
+                {% endif %}
+            {% endif %}
         {% endfor %}
 
         <hr>
