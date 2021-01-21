@@ -4,6 +4,7 @@ from django.urls import reverse
 from taggit.managers import TaggableManager
 from django.utils import timezone
 
+
 class Category(models.Model):
     name = models.CharField(max_length=250, unique=True)
 
@@ -16,7 +17,7 @@ class Film(models.Model):
     description = models.TextField(max_length=500)
     isPublic = models.BooleanField()
     publication_date = models.DateField(default=timezone.now)
-    rating = models.DecimalField(max_digits=3, decimal_places=1)
+    rating = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
     video = models.FileField(upload_to='videos')
     views_number = models.IntegerField(null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True, null=True)

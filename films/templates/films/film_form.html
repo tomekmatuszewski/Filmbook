@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="book-form-content col-md-9 mt-5">
+      <form class="book_form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">
+          {{ form.title.errors }}
+          <label for="{{ form.title.id_for_label }}">Title:</label>
+          {{ form.title }}
+        </div>
+        <div class="form-group">
+          {{ form.tags.errors }}
+          <label for="{{ form.tags.id_for_label }}">Tags:</label>
+          {{ form.tags }}
+        </div>
+
+        <div class="form-group">
+          {{ form.description.errors }}
+          <label for="{{ form.description.id_for_label }}">Description:</label>
+          {{ form.description }}
+        </div>
+        <div id="form-book" class="row">
+           <div class="col">
+             <div class="form-group">
+               {{ form.category.errors }}
+               <label for="{{ form.category.id_for_label }}">Category:</label>
+               {{ form.category }}
+             </div>
+           </div>
+           <div class="col">
+             <div class="form-group">
+                {{ form.video.errors }}
+                <label for="{{ form.image.id_for_label }}">Film File:</label>
+                {{ form.video }}
+             </div>
+           </div>
+           <div class="col">
+             <div class="form-group">
+               {{ form.isPublic.errors }}
+               <label for="{{ form.isPublic.id_for_label }}">IsPublic:</label>
+               {{ form.isPublic }}
+             </div>
+           </div>
+
+
+        </div>
+
+{#        <div class="row">#}
+
+{#        <div class="col">#}
+{#            <div class="form-group">#}
+{#              {{ form.authors.errors }}#}
+{#              <label for="{{ form.authors.id_for_label }}">Author:</label>#}
+{#              <select name="authors" class="form-control" id="id_authors">#}
+{#                {% for value,author in form.authors.field.choices %}#}
+{#                    <option value="{{ value }}">{{ author }}</option>#}
+{#                {% endfor %}#}
+{#              </select>#}
+{#            </div>#}
+{#        </div>#}
+{#        </div>#}
+
+
+        <input type="submit" value="Submit" class="btn btn-primary"/>
+
+      </form>
+  </div>
+{% endblock %}

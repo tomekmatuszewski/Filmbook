@@ -1,0 +1,19 @@
+.film-content video{
+    width: 90%;
+    height: 90%;
+}
+
+.article-img{
+    width: 50px;
+    height: 50px;
+}
+
+.sidebar .jumbotron{
+    margin-left: 1rem;
+    margin-top: 60px;
+    background-color: #CCE3DE;
+    padding: 2rem 2rem;
+}
+
+/*book-form*/
+
