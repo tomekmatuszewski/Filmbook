@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView
+from hitcount.views import HitCountDetailView
 
 from films.forms import FilmForm
 from films.models import Film
@@ -30,26 +31,27 @@ class FilmCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class FilmDetailView(DetailView):
+class FilmDetailView(HitCountDetailView):
 
     model = Film
     template_name = "films/film_detail.html"
+    count_hit = True
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        likes_connected = get_object_or_404(Film, slug=self.kwargs['slug'])
+        likes_connected = get_object_or_404(Film, slug=self.kwargs["slug"])
         liked = False
         if likes_connected.likes.filter(id=self.request.user.id).exists():
             liked = True
-        data['number_of_likes'] = likes_connected.total_likes
-        data['post_is_liked'] = liked
+        data["number_of_likes"] = likes_connected.total_likes
+        data["post_is_liked"] = liked
         return data
 
 
 def film_likes(request, slug):
-    film = get_object_or_404(Film, id=request.POST.get('film_id'))
+    film = get_object_or_404(Film, id=request.POST.get("film_id"))
     if film.likes.filter(id=request.user.id).exists():
         film.likes.remove(request.user)
     else:
         film.likes.add(request.user)
-    return HttpResponseRedirect(reverse('film-detail', args=[slug]))
+    return HttpResponseRedirect(reverse("film-detail", args=[slug]))
