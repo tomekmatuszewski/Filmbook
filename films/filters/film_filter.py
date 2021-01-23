@@ -1,7 +1,6 @@
 import django_filters
 from django.forms import CheckboxInput
 from django_filters.widgets import RangeWidget
-from django.db.models import BooleanField
 from films.models import Film, Category
 
 # based on django filters
@@ -15,9 +14,9 @@ class FilmFilter(django_filters.FilterSet):
         label="Title", field_name="title", lookup_expr="icontains"
     )
 
-    # tags = django_filters.CharFilter(
-    #     label="Tags", field_name="tags", lookup_expr="icontains"
-    # )
+    tags = django_filters.CharFilter(
+        label="Tag", field_name="tags", method="filter_by_tag"
+    )
 
     category = django_filters.ModelChoiceFilter(
         label="Category", queryset=Category.objects.all(), field_name="category"
@@ -54,5 +53,6 @@ class FilmFilter(django_filters.FilterSet):
         expression = "views_number" if value == "ascending" else "-views_number"
         return queryset.order_by(expression)
 
-
-
+    @staticmethod
+    def filter_by_tag(queryset, name, value):
+        return queryset.filter(tags__name__icontains=value)
