@@ -22,16 +22,21 @@
                             <video controls>
                                 <source src="{{ film.video.url }}" type="video/mp4">
                             </video>
-                            <p>{{ film.description|truncatewords:80 }}</p>
+                            <p class="article-description">{{ film.description|truncatewords:50 }}</p>
                         </div>
                 </article>
             {% else %}
+                <hr>
                 {% if film.isPublic %}
                     <article class="film-content">
                         <div class="media-body">
                             <div class="article-metadata">
                                 <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
-                                <span class="article-author mr-2"><a  href="#">{{ film.author }}</a></span>
+                                {% if user.is_authenticated %}
+                                    <span class="article-author mr-2"><a  href="#">{{ film.author }}</a></span>
+                                {% else %}
+                                    <span class="article-author mr-2">{{ film.author }}</span>
+                                {% endif %}
                                 <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
                             </div>
 
