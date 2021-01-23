@@ -1,1 +1,1 @@
-from .film_views import FilmCreateView, FilmListView
+from .film_views import FilmCreateView, FilmListView, FilmDetailView, film_likes
