@@ -43,3 +43,49 @@ article .article-author a:hover{
 
 /*book-form*/
 
+
+/*filters*/
+
+.sidebar label{
+    margin-top: 10px;
+}
+
+
+#div_id_rating input{
+    display: inline-block;
+    width: 40%;
+}
+
+#div_id_rating input[name=rating_min]{
+    margin-right: 7px;
+}
+
+
+#div_id_rating input[name=rating_max]{
+    margin-left: 12px;
+}
+
+#div_id_isPublic input{
+    margin-top: 15px;
+}
+
+#div_id_isPublic label{
+    margin-left: 15px;
+}
+
+/*button - paginate*/
+
+.buttons-paginate a{
+    border-color: #706d6d;
+    color: #706d6d;
+}
+
+.buttons-paginate a:hover{
+    border-color: #706d6d;
+    background-color: #706d6d;
+}
+
+.buttons-paginate .btn-info{
+    color: white;
+    background-color: #706d6d;
+}
