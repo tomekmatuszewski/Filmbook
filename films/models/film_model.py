@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from hitcount.models import HitCount
 from taggit.managers import TaggableManager
 
 
@@ -29,6 +31,10 @@ class Film(models.Model):
 
     likes = models.ManyToManyField(User, blank=True, related_name="film_likes")
     tags = TaggableManager()
+    hit_count_generic = GenericRelation(
+        HitCount, object_id_field="object_pk",
+        related_query_name="hit_count_generic_relation"
+    )
 
     def __str__(self) -> str:
         return f"{self.title}"
@@ -39,6 +45,9 @@ class Film(models.Model):
 
     def get_absolute_url(self) -> str:
         return reverse("film-detail", kwargs={"slug": self.slug})
+
+    def current_hit_count(self):
+        return self.hit_count.hits
 
 
 class Comment(models.Model):
