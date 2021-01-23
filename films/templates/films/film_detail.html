@@ -36,7 +36,15 @@
             </form>
             <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
 
+            <!-- VIEWS -->
             <p>Views: {{ hitcount.total_hits }}</p>
+
+            <!-- TAGS -->
+            <ul>
+                {% for tag in object.tags.all %}
+                    <li> {{ tag.name }} </li>
+                {% endfor %}
+            </ul>
 
         </article>
 
@@ -65,7 +73,15 @@
                 <a class="btn btn-outline-info" href="#">Log in to like this article!</a><br>
                 <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
 
+                <!-- VIEWS -->
                 <p>Views: {{ hitcount.total_hits }}</p>
+
+                <!-- TAGS -->
+                <ul>
+                    {% for tag in object.tags.all %}
+                        <li> {{ tag.name }} </li>
+                    {% endfor %}
+                </ul>
 
             </article>
 
