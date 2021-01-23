@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.forms import DecimalField, FileField, ModelForm
+from django.forms import FileField, ModelForm
 from django.utils.text import slugify
 
 from films.models import Film

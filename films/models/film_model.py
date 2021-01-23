@@ -17,7 +17,7 @@ class Category(models.Model):
 class Film(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField(max_length=500)
-    isPublic = models.BooleanField()
+    isPrivate = models.BooleanField()
     publication_date = models.DateField(default=timezone.now)
     rating = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
     video = models.FileField(upload_to="videos", blank=True)

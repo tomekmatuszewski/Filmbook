@@ -6,7 +6,6 @@
 .article-img{
     width: 50px;
     height: 50px;
-
 }
 
 article .article-date{
@@ -25,12 +24,12 @@ article .article-description{
     text-justify: inter-word;
 }
 
-article .article-author a{
+article a{
     text-decoration: none;
     color: #405F63;
 }
 
-article .article-author a:hover{
+article a:hover{
     color: crimson;
 }
 
@@ -42,7 +41,15 @@ article .article-author a:hover{
 }
 
 /*book-form*/
+#form-book input[type=checkbox]{
+    transform: scale(0.5);
 
+
+}
+
+#form-book .label-checkbox{
+
+}
 
 /*filters*/
 
@@ -65,11 +72,11 @@ article .article-author a:hover{
     margin-left: 12px;
 }
 
-#div_id_isPublic input{
+#div_id_isPrivate input{
     margin-top: 15px;
 }
 
-#div_id_isPublic label{
+#div_id_isPrivate label{
     margin-left: 15px;
 }
 

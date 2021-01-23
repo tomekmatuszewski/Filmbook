@@ -51,7 +51,7 @@
     {% else %}
         <hr>
 
-        {% if film.isPublic %}
+        {% if not film.isPrivate %}
 
             <article class="film-content">
 

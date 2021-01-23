@@ -17,7 +17,7 @@
                                 </div>
 
                                 <hr>
-                                <p>{{ film.title }}</p>
+                                <a class="article-title" href="{% url 'film-detail' film.slug %}">{{ film.title }}</a>
                                 <video controls="controls" preload="metadata">
                                     <source src="{{ film.video.url }}" type="video/mp4">
                                 </video>
@@ -26,7 +26,7 @@
                     </article>
                 {% endfor %}
             {% else %}
-                {% if film.isPublic %}
+                {% if not film.isPrivate %}
                     <hr>
                     {% for film in paginated_filter %}
                         <article class="film-content">

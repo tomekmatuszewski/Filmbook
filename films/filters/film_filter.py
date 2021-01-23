@@ -37,13 +37,12 @@ class FilmFilter(django_filters.FilterSet):
         widget=RangeWidget(attrs={"class": "textinput textInput form-control"}),
     )
 
-    isPublic = django_filters.BooleanFilter(label="Is Public", field_name="isPublic",
+    isPrivate = django_filters.BooleanFilter(label="Is Private", field_name="isPrivate",
                                             widget=CheckboxInput)
 
     class Meta:
         model = Film
-        fields = ["title", "category", "rating", "isPublic"]
-
+        fields = ["title", "category", "rating", "isPrivate"]
 
     @staticmethod
     def filter_by_order_date(queryset, name, value):
@@ -54,5 +53,6 @@ class FilmFilter(django_filters.FilterSet):
     def filter_by_order_views(queryset, name, value):
         expression = "views_number" if value == "ascending" else "-views_number"
         return queryset.order_by(expression)
+
 
 
