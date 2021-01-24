@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-md-9">
+         <article class="media content-section">
+
+
+             <table class="table table-bordered table-sm mt-5">
+                 <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Edit / Delete</th>
+                    </tr>
+                 </thead>
+                 <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.name }}</td>
+                            <td>
+                                {% if user.is_superuser %}
+                                    <a href="{% url 'category-update' category.pk %}" class="btn btn-light btn-sm mr-2">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                {% else %}
+                                <a class="btn btn-light btn-sm" href="#">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                                {% endif %}
+                                {% if user.is_superuser %}
+                                    <a class="btn btn-light btn-sm" href="{% url 'category-delete' category.pk %}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                {% else %}
+                                    <a class="btn btn-light btn-sm" href="#">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                 </tbody>
+             </table>
+         </article>
+
+
+
+    </div>
+{% endblock %}

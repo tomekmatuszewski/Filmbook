@@ -47,21 +47,20 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'add-film' %}">Add Film</a>
                 </li>
-              {% endif %}
               {% if user.is_superuser %}
-                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Categories
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">Add Category</a>
-                      <a class="dropdown-item" href="#">Categories</a>
+                <li class="nav-item dropdown">
+                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   Categories
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'add-category' %}">Add Category</a>
+                    <a class="dropdown-item" href="{% url 'categories' %}">Categories</a>
 
                     </div>
-              </li>
+                </li>
+                {% endif %}
               {% endif %}
-
-
             </ul>
             <a class="navbar-brand" href="{% url 'home' %}">Filmbook</a>
             <ul class="navbar-nav ml-auto">
