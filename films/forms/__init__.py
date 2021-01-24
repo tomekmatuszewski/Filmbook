@@ -1,1 +1,1 @@
-from .film import FilmForm
+from .film import FilmForm, CommentForm

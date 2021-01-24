@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.forms import FileField, ModelForm
 from django.utils.text import slugify
 
-from films.models import Film
+from films.models import Film, Comment
 
 
 class FilmForm(ModelForm):
@@ -29,3 +29,9 @@ class FilmForm(ModelForm):
             raise ValidationError("The title already exists.Use unique film title")
         self.instance.slug = slug
         return title
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('title', 'content')
