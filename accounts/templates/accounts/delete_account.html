@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section mt-5">
+        <form method="post">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Delete Your Account</legend>
+                <h5>Are you sure you want to delete your Account "{{ object.username }}"</h5>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-danger" type="submit">Delete</button>
+                <a class="btn btn-secondary" href="{% url 'user-update' object.pk %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}

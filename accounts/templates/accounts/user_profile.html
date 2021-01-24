@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <button class="btn btn-outline-info" type="submit">Update Profile Info</button>
                     <a class="btn btn-outline-info ml-2" href="{% url 'password-change' %}">Change Password</a>
-                    <a class="btn btn-outline-danger ml-2" href="#">Delete Account</a>
+                    <a class="btn btn-outline-danger ml-2" href="{% url 'user-delete' user.pk %}">Delete Account</a>
                 </div>
             </form>
         </div>

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from accounts.forms import SignUpForm
@@ -57,3 +57,19 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == user:
             return True
         return False
+
+
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+
+    model = User
+    template_name = "accounts/delete_account.html"
+
+    def test_func(self):
+        user = self.get_object()
+        if self.request.user == user:
+            return True
+        return False
+
+    def get_success_url(self):
+        messages.error(self.request, "Your account successfully deleted")
+        return reverse_lazy("home")
