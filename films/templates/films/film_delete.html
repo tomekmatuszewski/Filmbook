@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<br>
+
   <form method="post">
     {% csrf_token %}
-    <p>Do you want delete film: {{ object.title }}?</p>
-    <input type="submit" value="Submit" class="btn btn-danger">
+    <p class="mt-4">Do you want delete film: {{ object.title }}?</p>
+    <div class="form-group">
+        <button class="btn btn-danger" type="submit">Delete</button>
+        <a class="btn btn-secondary" href="{% url 'film-detail' object.slug %}">Cancel</a>
+    </div>
   </form>
 
 {% endblock %}

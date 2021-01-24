@@ -21,7 +21,7 @@ class FilmListView(ListView):
     context_object_name = "films"
     extra_context = {"title": "Home"}
     ordering = ["-publication_date"]
-    paginate_by = 5
+    paginate_by = 10
 
     def paginate_filter_queryset(self):
         context = FilmFilter(self.request.GET, queryset=self.get_queryset()).qs
@@ -93,7 +93,7 @@ class FilmUserListView(LoginRequiredMixin, ListView):
     template_name = "films/film_user.html"
     context_object_name = "films"
     ordering = ["-publication_date"]
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self):
         user_id = self.kwargs['pk']

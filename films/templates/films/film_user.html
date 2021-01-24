@@ -7,9 +7,9 @@
     <div class="col-md-8 mt-5">
 
             {% if user.pk == request.resolver_match.kwargs.pk %}
-                <p>Your films library</p>
+                <h5 class="mt-3">Your films library</h5>
             {% else %}
-                <div class="add-to-friends">
+                <div class="add-to-friends mt-3">
                     <form action="{% url "friends-action" request.resolver_match.kwargs.pk %}" method="POST">
                         {% csrf_token %}
                         {% ids_friends user.pk request.resolver_match.kwargs.pk as check_id %}
@@ -32,7 +32,11 @@
                             <div class="article-metadata">
                                 <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
                                 <span class="article-author mr-2">{{ film.author }}</span>
-
+                                {% if film.isPrivate %}
+                                    <strong class="ml-5">Private</strong>
+                                {% else %}
+                                    <strong class="ml-5">Public</strong>
+                                {% endif %}
                                 <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
                             </div>
 
@@ -48,26 +52,50 @@
                     </article>
                 {% else %}
                     {% if not film.isPrivate %}
-                    <hr>
-                    <article class="film-content">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
-                                <span class="article-author mr-2">{{ film.author }}</span>
-                                <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
+                        <hr>
+                        <article class="film-content">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
+                                    <span class="article-author mr-2">{{ film.author }}</span>
+                                    <strong class="ml-5">Public</strong>
+                                    <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
+                                </div>
+
+                                <hr>
+
+                                <a class="article-title" href="{% url 'film-detail' film.slug %}">{{ film.title }}</a>
+
+                                <video controls="controls" preload="metadata">
+                                    <source src="{{ film.video.url }}" type="video/mp4">
+                                </video>
+                                <p class="article-description">{{ film.description|truncatewords:50 }}</p>
                             </div>
-
+                        </article>
+                    {% else %}
+                        {% ids_friends user.pk film.author.pk as check_id %}
+                        {% if check_id and film.isPrivate %}
                             <hr>
+                            <article class="film-content">
+                                <div class="media-body">
+                                    <div class="article-metadata">
+                                        <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
+                                        <span class="article-author mr-2">{{ film.author }}</span>
+                                        <strong class="ml-5">Private</strong>
+                                        <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
+                                    </div>
 
-                            <a class="article-title" href="{% url 'film-detail' film.slug %}">{{ film.title }}</a>
+                                    <hr>
 
-                            <video controls="controls" preload="metadata">
-                                <source src="{{ film.video.url }}" type="video/mp4">
-                            </video>
-                            <p class="article-description">{{ film.description|truncatewords:50 }}</p>
-                        </div>
-                    </article>
+                                    <a class="article-title" href="{% url 'film-detail' film.slug %}">{{ film.title }}</a>
 
+                                    <video controls="controls" preload="metadata">
+                                        <source src="{{ film.video.url }}" type="video/mp4">
+                                    </video>
+                                    <p class="article-description">{{ film.description|truncatewords:50 }}</p>
+                                </div>
+                            </article>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
 
@@ -86,9 +114,9 @@
                 <select id="pagination" name="paginate_by" class="form-control">
                     <option value="">----------</option>
                     <option value="1">1</option>
-                    <option value="3">5</option>
-                    <option value="6">10</option>
-                    <option value="9">15</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
 
                 </select>
                 {{ filter.form|crispy }}
