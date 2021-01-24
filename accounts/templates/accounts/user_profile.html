@@ -24,6 +24,10 @@
                     <a class="btn btn-outline-danger ml-2" href="#">Delete Account</a>
                 </div>
             </form>
+            <p>Friends list:</p>
+            {% for friend in user.profile.friends.all %}
+                <p>{{ friend.username }}</p>
+            {% endfor %}
         </div>
     </div>
 

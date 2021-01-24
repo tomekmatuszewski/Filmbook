@@ -36,6 +36,13 @@
                 {{ form.video }}
              </div>
            </div>
+            <div class="col">
+             <div class="form-group">
+                {{ form.isPrivate.errors }}
+                <label for="{{ form.isPrivate.id_for_label }}">Is Private</label>
+                {{ form.isPrivate }}
+             </div>
+           </div>
 
         </div>
 
