@@ -13,8 +13,9 @@ article .article-date{
     margin-top: 10px;
 }
 
-article .article-author{
+article .article-author a{
     margin-left: 15px;
+    text-decoration: none;
 }
 
 article .article-description{
@@ -25,6 +26,7 @@ article .article-description{
 }
 
 article .article-title{
+    text-decoration: none;
     display: block;
     margin-bottom: 10px;
 }

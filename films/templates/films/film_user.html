@@ -48,6 +48,8 @@
                                 <source src="{{ film.video.url }}" type="video/mp4">
                             </video>
                             <p class="article-description">{{ film.description|truncatewords:50 }}</p>
+                            <i class="far fa-comment"></i> <span>{{ film.comments.count }}</span>
+                            <i class="far fa-thumbs-up ml-3"></i>  <span>{{ film.likes.count }}</span>
                         </div>
                     </article>
                 {% else %}
@@ -70,6 +72,8 @@
                                     <source src="{{ film.video.url }}" type="video/mp4">
                                 </video>
                                 <p class="article-description">{{ film.description|truncatewords:50 }}</p>
+                                <i class="far fa-comment"></i> <span>{{ film.comments.count }}</span>
+                                <i class="far fa-thumbs-up ml-3"></i>  <span>{{ film.likes.count }}</span>
                             </div>
                         </article>
                     {% else %}
@@ -93,6 +97,8 @@
                                         <source src="{{ film.video.url }}" type="video/mp4">
                                     </video>
                                     <p class="article-description">{{ film.description|truncatewords:50 }}</p>
+                                    <i class="far fa-comment"></i> <span>{{ film.comments.count }}</span>
+                                    <i class="far fa-thumbs-up ml-3"></i>  <span>{{ film.likes.count }}</span>
                                 </div>
                             </article>
                         {% endif %}
