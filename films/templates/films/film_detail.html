@@ -3,6 +3,7 @@
 {% block content %}
 
     {% if user.is_authenticated %}
+
         <div class="container">
 
 
@@ -61,44 +62,64 @@
             <p>{{ object.description|truncatewords:80 }}</p>
             <hr>
 
+        </div>
+
+    {% else %}
+
+        {% if not object.isPrivate %}
+
+            <div class="container">
+
+
+            <!-- TITLE -->
+            <br>
+            <div class="d-flex">
+                <div class="p-2">
+                    <h2>{{ object.title }}</h2>
+                </div>
+                <div class="ml-auto p-2">
+                    <span class="article-date"><small> {{ object.publication_date|date:"F d, Y" }}</small></span>
+                    <span> | </span>
+                    <span class="article-author mr-2"><a href="#">{{ object.author }}</a></span>
+                    <img class="rounded-circle article-img" src="{{ object.author.profile.photo.url }}"/>
+                </div>
+            </div>
+
+
+            <!-- VIDEO -->
+            <div class="embed-responsive embed-responsive-16by9">
+                <video controls>
+                    <source src="{{ object.video.url }}" type="video/mp4">
+                </video>
+            </div>
+
+            <!-- TAGS, VIEWS, LIKES -->
+            <div class="d-flex">
+                <div class="mr-auto p-2">
+                    {% for tag in object.tags.all %}
+                        <span class="badge badge-secondary">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+                 <div class="p-2">
+                     <strong class="text-secondary"> Views: {{ hitcount.total_hits }} </strong>
+                </div>
+                <div class="p-2">
+                    <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
+                </div>
+                <div class="p-2">
+                    <a class="btn btn-outline-info btn-sm" href="#">Log in to like this article!</a>
+                </div>
+            </div>
+
+
+            <!-- DESCRIPTION -->
+            <hr>
+            <p>{{ object.description|truncatewords:80 }}</p>
+            <hr>
 
         </div>
-    {% else %}
-        <hr>
 
-        {% if not film.isPrivate %}
 
-            <article class="film-content">
-
-                <div class="media-body">
-                    <div class="article-metadata">
-                        <img class="rounded-circle article-img" src="{{ object.author.profile.photo.url }}"/>
-                        <span class="article-author mr-2"><a href="#">{{ object.author }}</a></span>
-                        <span class="article-date"><small> {{ object.publication_date|date:"F d, Y" }}</small></span>
-                    </div>
-
-                    <hr>
-                    <p>{{ object.title }}</p>
-                    <video width='90%' height=90%' controls>
-                        <source src="{{ object.video.url }}" type="video/mp4">
-                    </video>
-                    <p>{{ object.description|truncatewords:80 }}</p>
-
-                </div>
-                <a class="btn btn-outline-info" href="#">Log in to like this article!</a><br>
-                <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
-
-                <!-- VIEWS -->
-                <p>Views: {{ hitcount.total_hits }}</p>
-
-                <!-- TAGS -->
-                <ul>
-                    {% for tag in object.tags.all %}
-                        <li> {{ tag.name }} </li>
-                    {% endfor %}
-                </ul>
-
-            </article>
 
         {% endif %}
 
