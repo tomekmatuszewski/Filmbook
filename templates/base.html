@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'films/css/films.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/accounts.css' %}"/>
 
     <script src="https://kit.fontawesome.com/0a451c7507.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -62,10 +63,8 @@
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'user_update' %}">Profile <i class="fas fa-user-circle"></i></a>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'password_change' %}">Change password <span class="sr-only">(current)</span></a>
-                    </li>
+                        <a class="nav-link" href="{% url 'user-update' user.pk %}"><i class="fas fa-user-circle"></i></a>
+
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'logout' %}">Logout <span class="sr-only">(current)</span></a>

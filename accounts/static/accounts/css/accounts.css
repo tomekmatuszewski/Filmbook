@@ -1,0 +1,11 @@
+.user-content .content-section{
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin: 20px;
+    padding: 30px;
+
+}
+
+.user-content label{
+    margin-top: 10px;
+}
