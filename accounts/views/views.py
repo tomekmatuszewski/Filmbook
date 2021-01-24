@@ -12,15 +12,15 @@ from accounts.forms.forms import ProfileUpdateForm, UserUpdateForm
 class SignUpView(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy("login")
-    template_name = "form.html"
+    template_name = "accounts/signup_form.html"
 
 
 class MyLoginView(LoginView):
-    template_name = 'form.html'
+    template_name = 'accounts/form_login.html'
 
 
 class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
-    template_name = 'form.html'
+    template_name = 'accounts/form_password_change.html'
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
@@ -32,7 +32,7 @@ class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     model = User
-    template_name = "user_profile.html"
+    template_name = "accounts/user_profile.html"
     form_class = UserUpdateForm
 
     def post(self, request, *args, **kwargs):

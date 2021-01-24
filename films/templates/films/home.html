@@ -26,9 +26,9 @@
                     </article>
                 {% endfor %}
             {% else %}
-                {% if not film.isPrivate %}
-                    <hr>
-                    {% for film in paginated_filter %}
+                {% for film in paginated_filter %}
+                    {% if not film.isPrivate %}
+                        <hr>
                         <article class="film-content">
                             <div class="media-body">
                                 <div class="article-metadata">
@@ -45,8 +45,9 @@
 
                             </div>
                         </article>
-                    {% endfor %}
-                {% endif %}
+                    {% endif %}
+                {% endfor %}
+
             {% endif %}
 
 

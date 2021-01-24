@@ -21,7 +21,6 @@ class Film(models.Model):
     publication_date = models.DateField(default=timezone.now)
     rating = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
     video = models.FileField(upload_to="videos", blank=True)
-    views_number = models.IntegerField(null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
 
     category = models.ForeignKey(
@@ -46,7 +45,8 @@ class Film(models.Model):
     def get_absolute_url(self) -> str:
         return reverse("film-detail", kwargs={"slug": self.slug})
 
-    def current_hit_count(self):
+    @property
+    def current_hit_count(self) -> int:
         return self.hit_count.hits
 
 

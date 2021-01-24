@@ -36,12 +36,10 @@ class FilmFilter(django_filters.FilterSet):
         widget=RangeWidget(attrs={"class": "textinput textInput form-control"}),
     )
 
-    isPrivate = django_filters.BooleanFilter(label="Is Private", field_name="isPrivate",
-                                            widget=CheckboxInput)
 
     class Meta:
         model = Film
-        fields = ["title", "category", "rating", "isPrivate"]
+        fields = ["title", "category", "rating"]
 
     @staticmethod
     def filter_by_order_date(queryset, name, value):
