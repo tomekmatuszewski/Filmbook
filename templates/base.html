@@ -62,18 +62,21 @@
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-user-circle"></i></a>
+                        <a class="nav-link" href="{% url 'user_update' %}">Profile <i class="fas fa-user-circle"></i></a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'password_change' %}">Change password <span class="sr-only">(current)</span></a>
+                    </li>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Logout <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{% url 'logout' %}">Logout <span class="sr-only">(current)</span></a>
                     </li>
 
                 {% else %}
                      <li class="nav-item active">
-                        <a class="nav-link" href="#">Register <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{% url 'signup' %}">Register <span class="sr-only">(current)</span></a>
                      </li>
                      <li class="nav-item active">
-                        <a class="nav-link" href="#">Login <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{% url 'login' %}">Login <span class="sr-only">(current)</span></a>
                      </li>
                 {% endif %}
 
