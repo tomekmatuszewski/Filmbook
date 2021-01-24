@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import ModelForm
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -10,8 +11,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from films.filters import FilmFilter
 
-from films.forms import FilmForm
-from films.models import Film
+from films.forms import FilmForm, CommentForm
+from films.models import Film, Comment
 
 
 class FilmListView(ListView):
@@ -70,13 +71,30 @@ class FilmDetailView(HitCountDetailView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
+
+        # likes
         likes_connected = get_object_or_404(Film, slug=self.kwargs["slug"])
         liked = False
         if likes_connected.likes.filter(id=self.request.user.id).exists():
             liked = True
         data["number_of_likes"] = likes_connected.total_likes
         data["post_is_liked"] = liked
+
+        # comments
+        comments_connected = Comment.objects.filter(film=self.get_object()).order_by('-date_posted')
+        data['comments'] = comments_connected
+        if self.request.user.is_authenticated:
+            data['comment_form'] = CommentForm(instance=self.request.user)
+
         return data
+
+    def post(self, request, *args, **kwargs):
+        new_comment = Comment(content=request.POST.get('content'),
+                              title=request.POST.get('title'),
+                              author=self.request.user,
+                              film=self.get_object())
+        new_comment.save()
+        return self.get(self, request, *args, **kwargs)
 
 
 def film_likes(request, slug):
