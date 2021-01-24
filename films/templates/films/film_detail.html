@@ -2,12 +2,12 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-    {% if user.is_authenticated %}
+    {% if not object.isPrivate %}
 
         <div class="container">
 
 
-            <!-- TITLE -->
+            <!-- TITLE AND AUTHOR -->
             <br>
             <div class="d-flex">
                 <div class="p-2">
@@ -36,22 +36,29 @@
                         <span class="badge badge-secondary">{{ tag.name }}</span>
                     {% endfor %}
                 </div>
-                 <div class="p-2">
-                     <strong class="text-secondary"> Views: {{ hitcount.total_hits }} </strong>
+                <div class="p-2">
+                    <strong class="text-secondary"> {{ hitcount.total_hits }}
+                        View{{ hitcount.total_hits|pluralize }}</strong>
                 </div>
                 <div class="p-2">
                     <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
                 </div>
                 <div class="p-2">
-                    <form action="{% url "film-like" object.slug %}" method="POST">
+                    {% if user.is_authenticated %}
+                        <form action="{% url "film-like" object.slug %}" method="POST">
                         {% csrf_token %}
                         {% if post_is_liked %}
-                            <button type="submit" name="film_id" value="{{ object.id }}" class="btn btn-info btn-sm">Unlike
+                            <button type="submit" name="film_id" value="{{ object.id }}" class="btn btn-info btn-sm">
+                                Unlike
                             </button>
                         {% else %}
-                            <button type="submit" name="film_id" value="{{ object.id }}" class="btn btn-info btn-sm">Like
+                            <button type="submit" name="film_id" value="{{ object.id }}" class="btn btn-info btn-sm">
+                                Like
                             </button>
                         {% endif %}
+                    {% else %}
+                        <a class="btn btn-outline-info btn-sm" href="#">Log in to like this video!</a>
+                    {% endif %}
                     </form>
                 </div>
             </div>
@@ -62,67 +69,71 @@
             <p>{{ object.description|truncatewords:80 }}</p>
             <hr>
 
+
+            <!-- COMMENTS  -->
+            <div>
+
+                {% if comments %}
+                    <strong class="text-secondary">{{ object.number_of_comments }}
+                        Comment{{ object.number_of_comments|pluralize }}</strong>
+                    <hr>
+                    <ul style="list-style-type:none;" >
+                        {% for comment in comments %}
+                            <li>
+                                <div>
+                                    <div>
+                                        <strong class="text-primary">{{ comment.title }} </strong>
+                                    </div>
+                                    <div>
+                                        {{ comment.content|safe }}
+                                    </div>
+                                    <div>
+                                        <span class="text-info">{{ comment.author }} </span>
+                                        <small class="text-muted">{{ comment.date_posted }}</small>
+                                    </div>
+                                </div>
+                                <br>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <strong class="text-secondary">No comments yet...</strong>
+                {% endif %}
+
+
+                {% if user.is_authenticated %}
+                    <div class="form-group">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ comment_form.non_field_errors }}
+
+                            <div class="form-group">
+                                {{ comment_form.title.errors }}
+                                <label for="{{ comment_form.title.id_for_label }}">Title:</label><br>
+                                {{ comment_form.title }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ comment_form.content.errors }}
+                                <label for="{{ comment_form.content.id_for_label }}">Description:</label><br>
+                                {{ comment_form.content }}
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-info" type="submit">Add comment</button>
+                            </div>
+                        </form>
+                    </div>
+
+                {% else %}
+                    <a class="btn btn-outline-info" href="#">Log in to add a comment!</a><br>
+                {% endif %}
+
+            </div>
+
+
         </div>
-
-    {% else %}
-
-        {% if not object.isPrivate %}
-
-            <div class="container">
-
-
-            <!-- TITLE -->
-            <br>
-            <div class="d-flex">
-                <div class="p-2">
-                    <h2>{{ object.title }}</h2>
-                </div>
-                <div class="ml-auto p-2">
-                    <span class="article-date"><small> {{ object.publication_date|date:"F d, Y" }}</small></span>
-                    <span> | </span>
-                    <span class="article-author mr-2"><a href="#">{{ object.author }}</a></span>
-                    <img class="rounded-circle article-img" src="{{ object.author.profile.photo.url }}"/>
-                </div>
-            </div>
-
-
-            <!-- VIDEO -->
-            <div class="embed-responsive embed-responsive-16by9">
-                <video controls>
-                    <source src="{{ object.video.url }}" type="video/mp4">
-                </video>
-            </div>
-
-            <!-- TAGS, VIEWS, LIKES -->
-            <div class="d-flex">
-                <div class="mr-auto p-2">
-                    {% for tag in object.tags.all %}
-                        <span class="badge badge-secondary">{{ tag.name }}</span>
-                    {% endfor %}
-                </div>
-                 <div class="p-2">
-                     <strong class="text-secondary"> Views: {{ hitcount.total_hits }} </strong>
-                </div>
-                <div class="p-2">
-                    <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
-                </div>
-                <div class="p-2">
-                    <a class="btn btn-outline-info btn-sm" href="#">Log in to like this article!</a>
-                </div>
-            </div>
-
-
-            <!-- DESCRIPTION -->
-            <hr>
-            <p>{{ object.description|truncatewords:80 }}</p>
-            <hr>
-
-        </div>
-
-
-
-        {% endif %}
 
     {% endif %}
-
 {% endblock %}
+
