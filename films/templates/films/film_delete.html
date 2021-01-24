@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+  <form method="post">
+    {% csrf_token %}
+    <p>Do you want delete film: {{ object.title }}?</p>
+    <input type="submit" value="Submit" class="btn btn-danger">
+  </form>
+
+{% endblock %}

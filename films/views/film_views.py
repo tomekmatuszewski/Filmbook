@@ -1,9 +1,8 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -13,6 +12,7 @@ from films.filters import FilmFilter
 from films.forms import FilmForm
 from films.models import Film
 from django.contrib.auth.models import User
+
 
 class FilmListView(ListView):
 
@@ -87,7 +87,6 @@ def film_likes(request, slug):
         film.likes.add(request.user)
     return HttpResponseRedirect(reverse("film-detail", args=[slug]))
 
-
 class FilmUserListView(LoginRequiredMixin, ListView):
 
     model = Film
@@ -136,3 +135,32 @@ def add_friend(request, pk):
     else:
         request.user.profile.friends.add(User.objects.get(pk=pk))
     return HttpResponseRedirect(reverse("film-user", args=[pk]))
+
+
+class AuthorRequiredMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        if self.object.author != self.request.user:
+            return HttpResponseForbidden()
+        return super(AuthorRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
+class FilmUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    template_name = 'films/film_form.html'
+    model = Film
+    form_class = FilmForm
+    success_url = reverse_lazy('home')
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user or self.request.user.is_superuser
+
+
+class FilmDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Film
+    template_name = "films/film_delete.html"
+    success_url = reverse_lazy('home')
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user or self.request.user.is_superuser
+
