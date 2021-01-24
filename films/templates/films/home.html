@@ -1,72 +1,102 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+{% load full_url %}
 
     <div class="col-md-8 mt-5">
 
-        <hr>
-
-        {% for film in films %}
             {% if user.is_authenticated %}
-                <article class="film-content">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <img class="rounded-circle article-img" height="50px" width="50px" src="{{ film.author.profile.photo.url }}"/>
-                                <span class="article-author mr-2"><a  href="#">{{ film.author }}</a></span>
-                                <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
-                            </div>
-
-                            <hr>
-                            <p>{{ film.title }}</p>
-                            <video width='90%' height=90%' controls>
-                                <source src="{{ film.video.url }}" type="video/mp4">
-                            </video>
-                            <p>{{ film.description|truncatewords:80 }}</p>
-                        </div>
-                </article>
-            {% else %}
-                {% if film.isPublic %}
+                {% for film in paginated_filter %}
+                    <hr>
                     <article class="film-content">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <img class="rounded-circle article-img" height="50px" width="50px" src="{{ film.author.profile.photo.url }}"/>
-                                <span class="article-author mr-2"><a  href="#">{{ film.author }}</a></span>
-                                <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
+                                    <span class="article-author mr-2"><a  href="#">{{ film.author }}</a></span>
+                                    <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
+                                </div>
+
+                                <hr>
+                                <a class="article-title" href="{% url 'film-detail' film.slug %}">{{ film.title }}</a>
+                                <video controls="controls" preload="metadata">
+                                    <source src="{{ film.video.url }}" type="video/mp4">
+                                </video>
+                                <p class="article-description">{{ film.description|truncatewords:50 }}</p>
                             </div>
-
-                            <hr>
-                            <p>{{ film.title }}</p>
-                            <video width='90%' height=90%' controls>
-                                <source src="{{ film.video.url }}" type="video/mp4">
-                            </video>
-
-                        </div>
                     </article>
+                {% endfor %}
+            {% else %}
+                {% if not film.isPrivate %}
+                    <hr>
+                    {% for film in paginated_filter %}
+                        <article class="film-content">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
+                                    <span class="article-author mr-2">{{ film.author }}</span>
+                                    <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
+                                </div>
+
+                                <hr>
+                                <p>{{ film.title }}</p>
+                                <video controls="controls" preload="metadata">
+                                    <source src="{{ film.video.url }}" type="video/mp4">
+                                </video>
+
+                            </div>
+                        </article>
+                    {% endfor %}
                 {% endif %}
             {% endif %}
-        {% endfor %}
 
-        <hr>
+
+
     </div>
 
-    <div class="sidebar col-md-3">
+    <div class="sidebar col-md-4">
         <div class="jumbotron">
+
             <h5>Filters</h5>
             <form method="GET">
                 <label for="pagination">Films on page</label>
                 <select id="pagination" name="paginate_by" class="form-control">
                     <option value="">----------</option>
                     <option value="1">1</option>
-                    <option value="3">3</option>
-                    <option value="6">6</option>
-                    <option value="9">9</option>
-                    <option value="12">12</option>
-                    <option value="18">18</option>
+                    <option value="3">5</option>
+                    <option value="6">10</option>
+                    <option value="9">15</option>
+
                 </select>
                 {{ filter.form|crispy }}
                 <button type="submit" class="btn btn-primary mt-4">Submit</button>
             </form>
+
         </div>
+    </div>
+
+
+    <div class="buttons-paginate">
+        {% if is_paginated %}
+            <hr>
+            {% if paginated_filter.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="{% full_url 1 'page' request.GET.urlencode %}">First</a>
+                <a class="btn btn-outline-info mb-4" href="{% full_url paginated_filter.previous_page_number 'page' request.GET.urlencode %}">Previous</a>
+            {% endif %}
+
+            {% for num in paginated_filter.paginator.page_range %}
+                {% if paginated_filter.number == num %}
+                    <a class="btn btn-info mb-4" href="{% full_url num 'page' request.GET.urlencode %}">{{ num }}</a>
+                {% elif num > paginated_filter.number|add:'-3' and num < paginated_filter.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="{% full_url num 'page' request.GET.urlencode %}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if paginated_filter.has_next %}
+                <a class="btn btn-outline-info mb-4" href="{% full_url paginated_filter.next_page_number 'page' request.GET.urlencode %}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="{% full_url paginated_filter.paginator.num_pages 'page' request.GET.urlencode %}">Last</a>
+            {% endif %}
+
+        {% endif %}
     </div>
 
 

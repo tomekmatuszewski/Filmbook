@@ -1,0 +1,98 @@
+.film-content video{
+    width: 90%;
+    height: 90%;
+}
+
+.article-img{
+    width: 50px;
+    height: 50px;
+}
+
+article .article-date{
+    float: right;
+    margin-top: 10px;
+}
+
+article .article-author{
+    margin-left: 15px;
+}
+
+article .article-description{
+    margin-top: 10px;
+    width: 90%;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+article a{
+    text-decoration: none;
+    color: #405F63;
+}
+
+article a:hover{
+    color: crimson;
+}
+
+.sidebar .jumbotron{
+    margin-left: 1rem;
+    margin-top: 60px;
+    background-color: #CCE3DE;
+    padding: 2rem 2rem;
+}
+
+/*book-form*/
+#form-book input[type=checkbox]{
+    transform: scale(0.5);
+
+
+}
+
+#form-book .label-checkbox{
+
+}
+
+/*filters*/
+
+.sidebar label{
+    margin-top: 10px;
+}
+
+
+#div_id_rating input{
+    display: inline-block;
+    width: 40%;
+}
+
+#div_id_rating input[name=rating_min]{
+    margin-right: 7px;
+}
+
+
+#div_id_rating input[name=rating_max]{
+    margin-left: 12px;
+}
+
+#div_id_isPrivate input{
+    margin-top: 15px;
+}
+
+#div_id_isPrivate label{
+    margin-left: 15px;
+}
+
+/*button - paginate*/
+
+.buttons-paginate a{
+    border-color: #706d6d;
+    color: #706d6d;
+}
+
+.buttons-paginate a:hover{
+    border-color: #706d6d;
+    background-color: #706d6d;
+}
+
+.buttons-paginate .btn-info{
+    color: white;
+    background-color: #706d6d;
+}

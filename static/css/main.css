@@ -2,14 +2,20 @@ body {
     background-color: #E6EEEF;
 }
 
+.container{
+    font-family: 'Josefin Sans', sans-serif;
+}
 
 .navbar{
     background-color: #405F63;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .navbar-brand{
     font-family: 'Lobster', cursive;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
+    margin-right: 7rem;
+
 }
 
 /*add class sticky to navbar when scrolling down*/

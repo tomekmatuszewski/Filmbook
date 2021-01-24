@@ -18,6 +18,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'films/css/films.css' %}"/>
 
     <script src="https://kit.fontawesome.com/0a451c7507.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -29,7 +30,6 @@
     <body>
          <!-- Navigation -->
          <nav class="navbar navbar-expand-lg navbar-dark">
-          <a class="navbar-brand" href="#">Filmbook</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -39,19 +39,26 @@
               <li class="nav-item active">
                 <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
               </li>
+              <li class="nav-item active">
+                  <a class="nav-link" href="#">About </a>
+              </li>
+              {% if user.is_authenticated %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">About </a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Add Film
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">coś tam</a>
+                    <a class="nav-link" href="{% url 'add-film' %}">Add Film</a>
+                </li>
+              {% endif %}
 
-                </div>
-              </li>
+{#              <li class="nav-item dropdown">#}
+{#                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                  Add Film#}
+{#                </a>#}
+{#                <div class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                  <a class="dropdown-item" href="#">coś tam</a>#}
+{##}
+{#                </div>#}
+{#              </li>#}
             </ul>
+            <a class="navbar-brand" href="{% url 'home' %}">Filmbook</a>
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
@@ -104,7 +111,7 @@
       <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Bookstore Copyright &copy; Your Website 2014</p>
+                    <p>Filmbook Copyright &copy; Your Website 2020</p>
                 </div>
             </div>
 
