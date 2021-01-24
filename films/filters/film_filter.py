@@ -48,7 +48,7 @@ class FilmFilter(django_filters.FilterSet):
 
     @staticmethod
     def filter_by_order_views(queryset, name, value):
-        expression = "views_number" if value == "ascending" else "-views_number"
+        expression = "hit_count_generic" if value == "ascending" else "-hit_count_generic"
         return queryset.order_by(expression)
 
     @staticmethod

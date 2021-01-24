@@ -24,6 +24,11 @@ article .article-description{
     text-justify: inter-word;
 }
 
+article .article-title{
+    display: block;
+    margin-bottom: 10px;
+}
+
 article a{
     text-decoration: none;
     color: #405F63;
@@ -94,4 +99,8 @@ article a:hover{
 .buttons-paginate .btn-info{
     color: white;
     background-color: #706d6d;
+}
+
+.film{
+    margin: auto;
 }

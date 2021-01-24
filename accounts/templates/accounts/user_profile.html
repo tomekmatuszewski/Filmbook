@@ -24,6 +24,12 @@
                     <a class="btn btn-outline-danger ml-2" href="{% url 'user-delete' user.pk %}">Delete Account</a>
                 </div>
             </form>
+            <p class="mt-5">Friends list:</p>
+
+            {% for friend in user.profile.friends.all %}
+                <a class="friend" href="{% url 'film-user' friend.pk %}"> - {{ friend.username }}</a>
+
+            {% endfor %}
         </div>
     </div>
 

@@ -16,3 +16,4 @@ def full_url(value, field_name, urlencode=None):
         url = f"{url}&{encoded_querystring}"
 
     return url
+

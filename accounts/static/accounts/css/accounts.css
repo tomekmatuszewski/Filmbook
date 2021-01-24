@@ -9,3 +9,9 @@
 .user-content label{
     margin-top: 10px;
 }
+
+.content-section .friend{
+    display: block;
+    text-decoration: none;
+    margin-top: 20px;
+}

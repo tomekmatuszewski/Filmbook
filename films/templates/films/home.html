@@ -2,17 +2,21 @@
 {% load crispy_forms_tags %}
 {% block content %}
 {% load full_url %}
+{% load ids_friends %}
 
     <div class="col-md-8 mt-5">
 
-            {% if user.is_authenticated %}
-                {% for film in paginated_filter %}
+        {% if user.is_authenticated %}
+            
+            <h5>My films</h5>
+            {% for film in paginated_filter %}
+                {% if user == film.author %}
                     <hr>
                     <article class="film-content">
                             <div class="media-body">
                                 <div class="article-metadata">
                                     <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
-                                    <span class="article-author mr-2"><a  href="#">{{ film.author }}</a></span>
+                                    <span class="article-author mr-2"><a  href="{% url 'film-user' film.author.pk %}">{{ film.author }}</a></span>
                                     <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
                                 </div>
 
@@ -24,32 +28,92 @@
                                 <p class="article-description">{{ film.description|truncatewords:50 }}</p>
                             </div>
                     </article>
-                {% endfor %}
-            {% else %}
-                {% for film in paginated_filter %}
-                    {% if not film.isPrivate %}
-                        <hr>
-                        <article class="film-content">
+                {% endif %}
+
+            {% endfor %}
+            <hr>
+            <h5>Public films of other users</h5>
+            {% for film in paginated_filter %}
+                {% if user != film.author and not film.isPrivate %}
+                    <hr>
+                    <article class="film-content">
                             <div class="media-body">
                                 <div class="article-metadata">
                                     <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
-                                    <span class="article-author mr-2">{{ film.author }}</span>
+                                    <span class="article-author mr-2"><a  href="{% url 'film-user' film.author.pk %}">{{ film.author }}</a></span>
                                     <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
                                 </div>
 
                                 <hr>
-                                <p>{{ film.title }}</p>
+                                <a class="article-title" href="{% url 'film-detail' film.slug %}">{{ film.title }}</a>
                                 <video controls="controls" preload="metadata">
                                     <source src="{{ film.video.url }}" type="video/mp4">
                                 </video>
-
+                                <p class="article-description">{{ film.description|truncatewords:50 }}</p>
                             </div>
+                    </article>
+
+                {% endif %}
+
+            {% endfor %}
+
+            {% if user.profile.friends.all %}
+                <hr>
+                <h5>Private films of my friends</h5>
+                {% for film in paginated_filter %}
+                    {% ids_friends user.pk film.author.pk as check_id %}
+                    {% if check_id and film.isPrivate %}
+                        <hr>
+                        <article class="film-content">
+                                <div class="media-body">
+                                    <div class="article-metadata">
+                                        <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
+                                        <span class="article-author mr-2"><a  href="{% url 'film-user' film.author.pk %}">{{ film.author }}</a></span>
+                                        <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
+                                    </div>
+
+                                    <hr>
+                                    <a class="article-title" href="{% url 'film-detail' film.slug %}">{{ film.title }}</a>
+                                    <video controls="controls" preload="metadata">
+                                        <source src="{{ film.video.url }}" type="video/mp4">
+                                    </video>
+                                    <p class="article-description">{{ film.description|truncatewords:50 }}</p>
+                                </div>
                         </article>
+
                     {% endif %}
+
                 {% endfor %}
-
+            {% else %}
+                <hr>
+                <h5>Add friends to watch their private videos !</h5>
             {% endif %}
+        {% else %}
+            <hr>
+            <h5>Public films</h5>
+             {% for film in paginated_filter %}
+                {% if not film.isPrivate %}
+                    <hr>
+                    <article class="film-content">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
+                                    <span class="article-author mr-2"><a  href="{% url 'film-user' film.author.pk %}">{{ film.author }}</a></span>
+                                    <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
+                                </div>
 
+                                <hr>
+                                <a class="article-title" href="{% url 'film-detail' film.slug %}">{{ film.title }}</a>
+                                <video controls="controls" preload="metadata">
+                                    <source src="{{ film.video.url }}" type="video/mp4">
+                                </video>
+                                <p class="article-description">{{ film.description|truncatewords:50 }}</p>
+                            </div>
+                    </article>
+                {% endif %}
+
+            {% endfor %}
+        {% endif %}
 
 
     </div>
@@ -63,9 +127,9 @@
                 <select id="pagination" name="paginate_by" class="form-control">
                     <option value="">----------</option>
                     <option value="1">1</option>
-                    <option value="3">5</option>
-                    <option value="6">10</option>
-                    <option value="9">15</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
 
                 </select>
                 {{ filter.form|crispy }}

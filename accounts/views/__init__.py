@@ -1,1 +1,1 @@
-from .views import SignUpView
+from .views import SignUpView, UserUpdateView, UserDeleteView, MyPasswordChangeView, MyLoginView
