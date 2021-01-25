@@ -70,7 +70,7 @@
             <!-- UPDATE AND DELETE -->
             {% if user.is_authenticated %}
                 {% if user.is_superuser or user == object.author %}
-                    <div class="form-group">
+                    <div class="film-edit-buttons">
                         <a class="btn-sm btn-outline-info" href="{% url 'film-update' film.slug %}">Update</a>
                         <a class="btn-sm btn-outline-danger ml-2" href="{% url 'film-delete' film.slug %}">Delete</a>
                     </div>

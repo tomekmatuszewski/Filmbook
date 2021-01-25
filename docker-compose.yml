@@ -1,0 +1,25 @@
+version: "3.0"
+
+services:
+  db:
+    image: postgres
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: filmbook
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/filmbook
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - migration
+  migration:
+    image: filmbook
+    command: python manage.py migrate --noinput
+    volumes:
+      - .:/filmbook
+    depends_on:
+      - db

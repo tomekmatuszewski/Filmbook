@@ -112,6 +112,10 @@ article a:hover{
     text-justify: inter-word;
 }
 
+.film-edit-buttons .btn-sm{
+    text-decoration: none;
+}
+
 /*comments*/
 
 .comments-section .content-section
