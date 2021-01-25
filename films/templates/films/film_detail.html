@@ -25,7 +25,7 @@
                 <div class="ml-auto p-2">
                     <span class="article-date"><small> {{ object.publication_date|date:"F d, Y" }}</small></span>
                     <span> | </span>
-                    <span class="article-author mr-2"><a href="#">{{ object.author }}</a></span>
+                    <span class="article-author mr-2"><a href="{% url 'film-user' object.author.pk %}">{{ object.author }}</a></span>
                     <img class="rounded-circle article-img" src="{{ object.author.profile.photo.url }}"/>
                 </div>
             </div>
@@ -98,7 +98,9 @@
                                         {{ comment.content|safe }}
                                     </div>
                                     <div>
-                                        <span class="text-info">{{ comment.author }} </span>
+                                        <span class="text-info">
+                                            <a href="{% url 'film-user' comment.author.pk %}">{{ comment.author }}</a>
+                                        </span>
                                         <small class="text-muted">{{ comment.date_posted }}</small>
                                     </div>
                                 </div>
