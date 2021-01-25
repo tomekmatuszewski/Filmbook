@@ -106,3 +106,78 @@ article a:hover{
 .film{
     margin: auto;
 }
+
+.film-description{
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/*comments*/
+
+.comments-section .content-section
+{
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.comments-section .content-section .article-metadata
+{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+
+}
+
+.comments-section .content-section  .article-img
+{
+  height: 50px;
+  width: 50px;
+  margin-right: 20px;
+}
+
+.comments-section .content-section .article-content{
+    margin-left: 15px;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.comment-edit-buttons{
+    margin-left: 15px;
+}
+
+
+.comment-edit-buttons.btn {
+   margin-left: 10px;
+   color: #4D4545;
+   border-color: #4D4545;
+}
+
+.comment-edit-buttons .btn:hover
+{
+   background-color: #A59E9D;
+}
+
+
+.comment-edit-buttons .btn-sm
+{
+   color: #4D4545;
+   border-color: #4D4545;
+   text-decoration:  none;
+   margin-left: -5px;
+}
+
+.comment-edit-buttons .btn-sm:hover
+{
+   background-color: #A59E9D;
+}
+
+.content-section .article-author{
+    display: inline;
+    margin-top: 12px;
+}
+

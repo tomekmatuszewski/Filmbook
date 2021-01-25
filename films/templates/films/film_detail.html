@@ -6,17 +6,6 @@
 
         <div class="film col-md-10 mt-2"><br>
 
-            <!-- UPDATE AND DELETE -->
-            {% if user.is_authenticated %}
-                {% if user.is_superuser or user == object.author %}
-                    <div class="form-group">
-                        <a class="btn btn-outline-info" href="{% url 'film-update' film.slug %}">Update</a>
-                        <a class="btn btn-outline-danger ml-2" href="{% url 'film-delete' film.slug %}">Delete</a>
-                    </div>
-                {% endif %}
-            {% endif %}
-
-
             <!-- TITLE AND AUTHOR -->
             <div class="d-flex">
                 <div class="p-2">
@@ -76,38 +65,45 @@
 
             <!-- DESCRIPTION -->
             <hr>
-            <p>{{ object.description|truncatewords:80 }}</p>
-            <hr>
+            <p class="film-description">{{ object.description }}</p>
 
+            <!-- UPDATE AND DELETE -->
+            {% if user.is_authenticated %}
+                {% if user.is_superuser or user == object.author %}
+                    <div class="form-group">
+                        <a class="btn-sm btn-outline-info" href="{% url 'film-update' film.slug %}">Update</a>
+                        <a class="btn-sm btn-outline-danger ml-2" href="{% url 'film-delete' film.slug %}">Delete</a>
+                    </div>
+                    <hr>
+                {% endif %}
+            {% endif %}
 
             <!-- COMMENTS  -->
-            <div>
+            <div class="ml-0 comments-section">
 
                 {% if comments %}
                     <strong class="text-secondary">{{ object.number_of_comments }}
                         Comment{{ object.number_of_comments|pluralize }}</strong>
-                    <hr>
-                    <ul style="list-style-type:none;">
-                        {% for comment in comments %}
-                            <li>
-                                <div>
-                                    <div>
-                                        <strong class="text-primary">{{ comment.title }} </strong>
-                                    </div>
-                                    <div>
-                                        {{ comment.content|safe }}
-                                    </div>
-                                    <div>
-                                        <span class="text-info">
-                                            <a href="{% url 'film-user' comment.author.pk %}">{{ comment.author }}</a>
-                                        </span>
-                                        <small class="text-muted">{{ comment.date_posted }}</small>
-                                    </div>
+                    {% for comment in comments %}
+
+                        <article class="media content-section mt-5">
+                            <img class="rounded-circle article-img" src="{{ comment.author.profile.photo.url }}">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <span class="article-author mr-2"><a href="#">{{ comment.author }}</a></span>
+                                    <span class="article-date ml-5"><small> {{ comment.date_posted|date:"F d, Y" }}</small></span>
                                 </div>
-                                <br>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                                <p class="article-content">{{ comment.content }}</p>
+                                {% if comment.author == user %}
+                                    <div class="comment-edit-buttons">
+                                        <a class="btn-sm btn-outline-info" href="#">Edit</a>
+                                        <a class="btn-sm btn-outline-info ml-1" href="#">Delete</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </article>
+                    {% endfor %}
+
                 {% else %}
                     <strong class="text-secondary">No comments yet...</strong>
                     <hr>
@@ -115,7 +111,8 @@
 
 
                 {% if user.is_authenticated %}
-                    <div class="form-group">
+                    <hr>
+                    <div class="form-group mt-2">
                         <form method="POST">
                             {% csrf_token %}
                             {{ comment_form.non_field_errors }}

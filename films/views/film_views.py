@@ -12,7 +12,7 @@ from films.filters import FilmFilter
 from films.forms import FilmForm, CommentForm
 from films.models import Film, Comment
 from django.contrib.auth.models import User
-
+from moviepy.editor import VideoFileClip
 
 class FilmListView(ListView):
 
