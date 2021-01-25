@@ -62,11 +62,21 @@ class FilmCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class FilmDetailView(HitCountDetailView):
+class FilmDetailView(UserPassesTestMixin, HitCountDetailView):
 
     model = Film
     template_name = "films/film_detail.html"
     count_hit = True
+
+    def test_func(self):
+        obj = self.get_object()
+        if self.request.user.is_authenticated:
+            admin = self.request.user.is_superuser
+            author = obj.author == self.request.user
+            friend = self.request.user.profile.friends.filter(id=obj.author.id)
+            return not obj.isPrivate or admin or author or friend
+        else:
+            return not obj.isPrivate
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
