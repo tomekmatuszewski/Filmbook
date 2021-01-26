@@ -185,3 +185,10 @@ article a:hover{
     margin-top: 12px;
 }
 
+.content-section .article-title{
+    display: inline;
+    margin-top: 12px;
+    text-align: center;
+}
+
+

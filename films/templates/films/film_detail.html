@@ -4,7 +4,7 @@
 
 
 
-        <div class="film col-md-10 mt-2"><br>
+        <div class="film col-md-10 mt-3">
 
             <!-- TITLE AND AUTHOR -->
             <div class="d-flex">
@@ -84,20 +84,22 @@
                 {% if comments %}
                     <strong class="text-secondary">{{ object.number_of_comments }}
                         Comment{{ object.number_of_comments|pluralize }}</strong>
+                    <hr>
                     {% for comment in comments %}
 
                         <article class="media content-section mt-5">
                             <img class="rounded-circle article-img" src="{{ comment.author.profile.photo.url }}">
                             <div class="media-body">
                                 <div class="article-metadata">
-                                    <span class="article-author mr-2"><a href="#">{{ comment.author }}</a></span>
+                                    <span class="article-author"><a href="{% url 'film-user' comment.author.pk %}">{{ comment.author }}</a></span>
+                                    <span class="article-title mr-2">{{ comment.title }}</span>
                                     <span class="article-date ml-5"><small> {{ comment.date_posted|date:"F d, Y" }}</small></span>
                                 </div>
                                 <p class="article-content">{{ comment.content }}</p>
-                                {% if comment.author == user %}
+                                {% if comment.author == user or user.is_superuser %}
                                     <div class="comment-edit-buttons">
-                                        <a class="btn-sm btn-outline-info" href="#">Edit</a>
-                                        <a class="btn-sm btn-outline-info ml-1" href="#">Delete</a>
+                                        <a class="btn-sm btn-outline-info" href="{% url 'comment-update' object.slug comment.pk %}">Edit</a>
+                                        <a class="btn-sm btn-outline-info ml-1" href="{% url 'comment-delete' object.slug comment.pk %}">Delete</a>
                                     </div>
                                 {% endif %}
                             </div>
@@ -111,7 +113,7 @@
 
 
                 {% if user.is_authenticated %}
-                    <hr>
+
                     <div class="form-group mt-2">
                         <form method="POST">
                             {% csrf_token %}
