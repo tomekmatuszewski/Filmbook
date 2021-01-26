@@ -1,21 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
+
     <div class="col-md-9">
          <article class="media content-section">
 
 
-             <table class="table table-bordered table-sm mt-5">
+             <table class="table table-bordered mt-5">
                  <thead>
                     <tr>
-                        <th scope="col">Name</th>
+                        <th class="category-head" scope="col">Name</th>
                         <th scope="col">Edit / Delete</th>
                     </tr>
                  </thead>
                  <tbody>
                     {% for category in categories %}
                         <tr>
-                            <td>{{ category.name }}</td>
+                            <td class="category-names">{{ category.name }}</td>
                             <td>
                                 {% if user.is_superuser %}
                                     <a href="{% url 'category-update' category.pk %}" class="btn btn-light btn-sm mr-2">

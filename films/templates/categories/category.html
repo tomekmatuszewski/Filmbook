@@ -2,12 +2,12 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-    <div class="common-form">
+    <div class="common-form mt-5">
          <div class="content-section">
             <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Add</legend>
+                    <legend class="border-bottom mb-4">Add Film Category</legend>
                     {{ form|crispy }}
                 </fieldset>
                 <div class="form-group">
