@@ -1,6 +1,8 @@
 version: "3.0"
 
 services:
+  db:
+    image: postgres
   webapp:
     build:
       context: .
@@ -10,7 +12,14 @@ services:
       - .:/filmbook
     ports:
       - "8000:8000"
-
-  migration:
-    image: filmbook_webapp:latest
-    command: python manage.py migrate --noinput
+    depends_on:
+      - migrations
+      - db
+  migrations:
+      build:
+        context: .
+      command: python manage.py migrate --noinput
+      volumes:
+        - .:/filmbook
+      depends_on:
+        - db
