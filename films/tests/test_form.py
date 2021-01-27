@@ -1,12 +1,12 @@
-from films.forms import film
 import pytest
-from films.models import Category
 from django.contrib.auth.models import User
+
+from films.forms import film
+from films.models import Category
 
 
 @pytest.mark.django_db
 class TestForms:
-
     @pytest.fixture(scope="function", name="category")
     def create_category(self, django_db_blocker, django_db_setup, user):
         with django_db_blocker.unblock():
@@ -30,7 +30,7 @@ class TestForms:
                 "description": "Test content",
                 "isPublic": True,
                 "category": category.id,
-                "tags": "test_tag,test_tag1"
+                "tags": "test_tag,test_tag1",
             }
         )
         assert form.is_valid()

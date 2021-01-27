@@ -1,10 +1,11 @@
 from django.urls import path
 
-from films.views import FilmCreateView, FilmListView, FilmDetailView, film_likes, FilmUserListView, \
-    add_friend, FilmUpdateView, FilmDeleteView, CommentDeleteView, CommentUpdateView
-
-from films.views.category_views import CategoryCreateView, CategoryListView, CategoryDeleteView, CategoryUpdateView
-
+from films.views import (CommentDeleteView, CommentUpdateView, FilmCreateView,
+                         FilmDeleteView, FilmDetailView, FilmListView,
+                         FilmUpdateView, FilmUserListView, add_friend,
+                         film_likes)
+from films.views.category_views import (CategoryCreateView, CategoryDeleteView,
+                                        CategoryListView, CategoryUpdateView)
 
 urlpatterns = [
     path("", FilmListView.as_view(), name="home"),
@@ -15,13 +16,22 @@ urlpatterns = [
     path("friends/<int:pk>", add_friend, name="friends-action"),
     path("film/update/<slug:slug>", FilmUpdateView.as_view(), name="film-update"),
     path("film/delete/<slug:slug>", FilmDeleteView.as_view(), name="film-delete"),
-    path('add-category', CategoryCreateView.as_view(), name='add-category'),
-    path('category-list', CategoryListView.as_view(), name='categories'),
-    path('category/<int:pk>/update', CategoryUpdateView.as_view(), name='category-update'),
-    path('category/<int:pk>/delete', CategoryDeleteView.as_view(), name='category-delete'),
-
-    path("film/<slug:slug>/comment-update/<int:pk>", CommentUpdateView.as_view(), name="comment-update"),
-    path("film/<slug:slug>/comment-delete/<int:pk>", CommentDeleteView.as_view(), name="comment-delete"),
-
+    path("add-category", CategoryCreateView.as_view(), name="add-category"),
+    path("category-list", CategoryListView.as_view(), name="categories"),
+    path(
+        "category/<int:pk>/update", CategoryUpdateView.as_view(), name="category-update"
+    ),
+    path(
+        "category/<int:pk>/delete", CategoryDeleteView.as_view(), name="category-delete"
+    ),
+    path(
+        "film/<slug:slug>/comment-update/<int:pk>",
+        CommentUpdateView.as_view(),
+        name="comment-update",
+    ),
+    path(
+        "film/<slug:slug>/comment-delete/<int:pk>",
+        CommentDeleteView.as_view(),
+        name="comment-delete",
+    ),
 ]
-

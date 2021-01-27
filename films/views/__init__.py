@@ -1,2 +1,4 @@
-from .film_views import FilmCreateView, FilmListView, FilmDetailView, film_likes, FilmUserListView, add_friend, FilmUpdateView, FilmDeleteView
 from .comment_views import CommentDeleteView, CommentUpdateView
+from .film_views import (FilmCreateView, FilmDeleteView, FilmDetailView,
+                         FilmListView, FilmUpdateView, FilmUserListView,
+                         add_friend, film_likes)

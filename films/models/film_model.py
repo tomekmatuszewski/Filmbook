@@ -31,8 +31,9 @@ class Film(models.Model):
     likes = models.ManyToManyField(User, blank=True, related_name="film_likes")
     tags = TaggableManager()
     hit_count_generic = GenericRelation(
-        HitCount, object_id_field="object_pk",
-        related_query_name="hit_count_generic_relation"
+        HitCount,
+        object_id_field="object_pk",
+        related_query_name="hit_count_generic_relation",
     )
 
     def __str__(self) -> str:
@@ -63,7 +64,7 @@ class Comment(models.Model):
     film = models.ForeignKey(Film, on_delete=models.CASCADE, related_name="comments")
 
     class Meta:
-        ordering = ['date_posted']
+        ordering = ["date_posted"]
 
     def __str__(self) -> str:
         return f"{self.title}"

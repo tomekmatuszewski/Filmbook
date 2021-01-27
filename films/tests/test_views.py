@@ -1,13 +1,12 @@
 import pytest
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 
 from films.models import Category, Film
-from django.contrib.auth.models import User
 
 
 @pytest.mark.django_db
 class TestViews:
-
     @pytest.fixture(scope="class", name="user")
     def create_user(self, django_db_blocker, django_db_setup):
         with django_db_blocker.unblock():

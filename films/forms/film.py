@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.forms import FileField, ModelForm
 from django.utils.text import slugify
 
-from films.models import Film, Comment
+from films.models import Comment, Film
 
 
 class FilmForm(ModelForm):
@@ -34,7 +34,7 @@ class FilmForm(ModelForm):
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
-        fields = ('title', 'content')
+        fields = ("title", "content")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

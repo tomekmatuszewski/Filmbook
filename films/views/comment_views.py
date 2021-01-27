@@ -1,14 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, DeleteView
+from django.views.generic import DeleteView, UpdateView
 
 from films.forms import CommentForm
 from films.models import Comment
 
 
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    template_name = 'films/comment_form.html'
+    template_name = "films/comment_form.html"
     model = Comment
     form_class = CommentForm
     context_object_name = "comment"

@@ -1,7 +1,8 @@
 import django_filters
 from django.forms import CheckboxInput
 from django_filters.widgets import RangeWidget
-from films.models import Film, Category
+
+from films.models import Category, Film
 
 # based on django filters
 
@@ -23,11 +24,15 @@ class FilmFilter(django_filters.FilterSet):
     )
 
     ordering_by_date = django_filters.ChoiceFilter(
-        label="Ordering by Publication Date", choices=CHOICES, method="filter_by_order_date"
+        label="Ordering by Publication Date",
+        choices=CHOICES,
+        method="filter_by_order_date",
     )
 
     ordering_by_views = django_filters.ChoiceFilter(
-        label="Ordering by Views Number", choices=CHOICES, method="filter_by_order_views"
+        label="Ordering by Views Number",
+        choices=CHOICES,
+        method="filter_by_order_views",
     )
 
     rating = django_filters.RangeFilter(
@@ -35,7 +40,6 @@ class FilmFilter(django_filters.FilterSet):
         field_name="rating",
         widget=RangeWidget(attrs={"class": "textinput textInput form-control"}),
     )
-
 
     class Meta:
         model = Film
@@ -48,7 +52,9 @@ class FilmFilter(django_filters.FilterSet):
 
     @staticmethod
     def filter_by_order_views(queryset, name, value):
-        expression = "hit_count_generic" if value == "ascending" else "-hit_count_generic"
+        expression = (
+            "hit_count_generic" if value == "ascending" else "-hit_count_generic"
+        )
         return queryset.order_by(expression)
 
     @staticmethod

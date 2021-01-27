@@ -1,17 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.contrib.auth.models import User
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from hitcount.views import HitCountDetailView
 
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
 from films.filters import FilmFilter
-
-from films.forms import FilmForm, CommentForm
-from films.models import Film, Comment
-from django.contrib.auth.models import User
+from films.forms import CommentForm, FilmForm
+from films.models import Comment, Film
 
 
 class FilmListView(ListView):
@@ -90,18 +88,22 @@ class FilmDetailView(UserPassesTestMixin, HitCountDetailView):
         data["post_is_liked"] = liked
 
         # comments
-        comments_connected = Comment.objects.filter(film=self.get_object()).order_by('-date_posted')
-        data['comments'] = comments_connected
+        comments_connected = Comment.objects.filter(film=self.get_object()).order_by(
+            "-date_posted"
+        )
+        data["comments"] = comments_connected
         if self.request.user.is_authenticated:
-            data['comment_form'] = CommentForm(instance=self.request.user)
+            data["comment_form"] = CommentForm(instance=self.request.user)
 
         return data
 
     def post(self, request, *args, **kwargs):
-        new_comment = Comment(content=request.POST.get('content'),
-                              title=request.POST.get('title'),
-                              author=self.request.user,
-                              film=self.get_object())
+        new_comment = Comment(
+            content=request.POST.get("content"),
+            title=request.POST.get("title"),
+            author=self.request.user,
+            film=self.get_object(),
+        )
         new_comment.save()
         return self.get(self, request, *args, **kwargs)
 
@@ -124,7 +126,7 @@ class FilmUserListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        user_id = self.kwargs['pk']
+        user_id = self.kwargs["pk"]
         return Film.objects.filter(author=User.objects.get(pk=user_id))
 
     def paginate_filter_queryset(self):
@@ -158,7 +160,7 @@ def add_friend(request, pk):
 
     user = User.objects.filter(pk=request.user.pk)
 
-    if pk in list(user.values_list('profile__friends__id', flat=True)):
+    if pk in list(user.values_list("profile__friends__id", flat=True)):
         request.user.profile.friends.remove(User.objects.get(pk=pk))
     else:
         request.user.profile.friends.add(User.objects.get(pk=pk))
@@ -166,10 +168,10 @@ def add_friend(request, pk):
 
 
 class FilmUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    template_name = 'films/film_form.html'
+    template_name = "films/film_form.html"
     model = Film
     form_class = FilmForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy("home")
 
     def test_func(self):
         obj = self.get_object()
@@ -179,9 +181,8 @@ class FilmUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class FilmDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Film
     template_name = "films/film_delete.html"
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy("home")
 
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user or self.request.user.is_superuser
-

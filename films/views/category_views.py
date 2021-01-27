@@ -1,10 +1,11 @@
-from films.models import Category
 from django.contrib import messages
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin,
                                         UserPassesTestMixin)
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DeleteView, UpdateView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+
+from films.models import Category
 
 
 class StaffRequiredMixin(UserPassesTestMixin):
@@ -12,10 +13,9 @@ class StaffRequiredMixin(UserPassesTestMixin):
         return self.request.user.is_staff
 
 
-
 class CategoryCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = Category
-    template_name = 'categories/category.html'
+    template_name = "categories/category.html"
     fields = "__all__"
     permission_required = "category.add_category"
 
@@ -24,12 +24,10 @@ class CategoryCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView
         return reverse_lazy("categories")
 
 
-
 class CategoryListView(ListView):
     model = Category
     template_name = "categories/category_list.html"
     context_object_name = "categories"
-
 
 
 class CategoryUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
@@ -43,7 +41,6 @@ class CategoryUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView
         form.save()
         messages.success(self.request, "Category data successfully changed")
         return super().form_valid(form)
-
 
 
 class CategoryDeleteView(StaffRequiredMixin, LoginRequiredMixin, DeleteView):

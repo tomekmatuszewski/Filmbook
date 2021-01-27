@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.views.generic import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView, UpdateView
+
 from accounts.forms import SignUpForm
 from accounts.forms.forms import ProfileUpdateForm, UserUpdateForm
 
@@ -16,12 +17,12 @@ class SignUpView(CreateView):
 
 
 class MyLoginView(LoginView):
-    template_name = 'accounts/form_login.html'
+    template_name = "accounts/form_login.html"
 
 
 class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
-    template_name = 'accounts/form_password_change.html'
-    success_url = reverse_lazy('home')
+    template_name = "accounts/form_password_change.html"
+    success_url = reverse_lazy("home")
 
     def form_valid(self, form):
         form.save()
