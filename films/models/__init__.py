@@ -1,1 +1,1 @@
-from .film_model import Category, Comment, Film
+from .film_model import Category, Comment, Film, Rating

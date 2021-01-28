@@ -4,148 +4,184 @@
 
 
 
-        <div class="film col-md-10 mt-5">
+    <div class="film col-md-10 mt-5">
 
-            <!-- TITLE AND AUTHOR -->
-            <div class="d-flex">
-                <div class="p-2">
-                    <h2>{{ object.title }}</h2>
-                </div>
-                <div class="ml-auto p-2">
-                    <span class="article-date"><small> {{ object.publication_date|date:"F d, Y" }}</small></span>
-                    <span> | </span>
-                    <span class="article-author mr-2"><a href="{% url 'film-user' object.author.pk %}">{{ object.author }}</a></span>
-                    <img class="rounded-circle article-img" src="{{ object.author.profile.photo.url }}"/>
-                </div>
+        <!-- TITLE AND AUTHOR -->
+        <div class="d-flex">
+            <div class="p-2">
+                <h2>{{ object.title }}</h2>
+            </div>
+            <div class="ml-auto p-2">
+                <span class="article-date"><small> {{ object.publication_date|date:"F d, Y" }}</small></span>
+                <span> | </span>
+                <span class="article-author mr-2"><a
+                        href="{% url 'film-user' object.author.pk %}">{{ object.author }}</a></span>
+                <img class="rounded-circle article-img" src="{{ object.author.profile.photo.url }}"/>
+            </div>
+        </div>
+
+
+        <!-- VIDEO -->
+        <div class="embed-responsive embed-responsive-16by9">
+            <video controls>
+                <source src="{{ object.video.url }}" type="video/mp4">
+            </video>
+        </div>
+
+        <!-- TAGS, VIEWS, LIKES, RATING -->
+        <div class="d-flex">
+
+            <div class="p-2">
+                <span class="badge badge-info">{{ object.category }}</span>
+                {% for tag in object.tags.all %}
+                    <span class="badge badge-secondary"><span>#</span>{{ tag.name }}</span>
+                {% endfor %}
             </div>
 
-
-            <!-- VIDEO -->
-            <div class="embed-responsive embed-responsive-16by9">
-                <video controls>
-                    <source src="{{ object.video.url }}" type="video/mp4">
-                </video>
+            <div class="p-2">
+                <i class="far fa-eye ml-3"></i>
+                {{ hitcount.total_hits }}
             </div>
 
-            <!-- TAGS, VIEWS, LIKES -->
-            <div class="d-flex">
-                <div class="mr-auto p-2">
-                    {% for tag in object.tags.all %}
-                        <span class="badge badge-secondary">{{ tag.name }}</span>
-                    {% endfor %}
-                </div>
-                <div class="p-2">
-                    <strong class="text-secondary"> {{ hitcount.total_hits }}
-                        View{{ hitcount.total_hits|pluralize }}</strong>
-                </div>
-                <div class="p-2">
-                    <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
-                </div>
-                <div class="p-2">
-                    {% if user.is_authenticated %}
-                        <form action="{% url "film-like" object.slug %}" method="POST">
-                        {% csrf_token %}
-                        {% if post_is_liked %}
-                            <button type="submit" name="film_id" value="{{ object.id }}" class="btn btn-info btn-sm">
-                                Unlike
-                            </button>
-                        {% else %}
-                            <button type="submit" name="film_id" value="{{ object.id }}" class="btn btn-info btn-sm">
-                                Like
-                            </button>
-                        {% endif %}
-                    {% else %}
-                        <a class="btn btn-outline-info btn-sm" href="{% url 'login' %}?next={{ request.path }}">Log in
-                            to like this video!</a>
-                    {% endif %}
-                    </form>
-                </div>
+            <div class="p-2">
+                <i class="far fa-thumbs-up ml-3"></i>
+                {{ number_of_likes }}
             </div>
 
-
-            <!-- DESCRIPTION -->
-            <hr>
-            <p class="film-description">{{ object.description }}</p>
-
-            <!-- UPDATE AND DELETE -->
-            {% if user.is_authenticated %}
-                {% if user.is_superuser or user == object.author %}
-                    <div class="film-edit-buttons">
-                        <a class="btn-sm btn-outline-info" href="{% url 'film-update' film.slug %}">Update</a>
-                        <a class="btn-sm btn-outline-danger ml-2" href="{% url 'film-delete' film.slug %}">Delete</a>
-                    </div>
-                    <hr>
-                {% endif %}
-            {% endif %}
-
-            <!-- COMMENTS  -->
-            <div class="ml-0 comments-section">
-
-                {% if comments %}
-                    <strong class="text-secondary">{{ object.number_of_comments }}
-                        Comment{{ object.number_of_comments|pluralize }}</strong>
-                    <hr>
-                    {% for comment in comments %}
-
-                        <article class="media content-section mt-5">
-                            <img class="rounded-circle article-img" src="{{ comment.author.profile.photo.url }}">
-                            <div class="media-body">
-                                <div class="article-metadata">
-                                    <span class="article-author"><a href="{% url 'film-user' comment.author.pk %}">{{ comment.author }}</a></span>
-                                    <span class="article-title mr-2">{{ comment.title }}</span>
-                                    <span class="article-date ml-5"><small> {{ comment.date_posted|date:"F d, Y" }}</small></span>
-                                </div>
-                                <p class="article-content">{{ comment.content }}</p>
-                                {% if comment.author == user or user.is_superuser %}
-                                    <div class="comment-edit-buttons">
-                                        <a class="btn-sm btn-outline-info" href="{% url 'comment-update' object.slug comment.pk %}">Edit</a>
-                                        <a class="btn-sm btn-outline-info ml-1" href="{% url 'comment-delete' object.slug comment.pk %}">Delete</a>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </article>
-                    {% endfor %}
-
-                {% else %}
-                    <strong class="text-secondary">No comments yet...</strong>
-                    <hr>
-                {% endif %}
-
-
+            <div class="p-2">
                 {% if user.is_authenticated %}
+                    <form action="{% url "film-like" object.slug %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" name="film_id" value="{{ object.id }}" class="btn btn-info btn-sm">
+                            {% if post_is_liked %}
+                                Unlike
+                            {% else %}
+                                Like
+                            {% endif %}
+                        </button>
+                    </form>
+                {% else %}
+                    <a class="btn btn-outline-info btn-sm" href="{% url 'login' %}?next={{ request.path }}">
+                        Log in to like this video!
+                    </a>
+                {% endif %}
+            </div>
 
-                    <div class="form-group mt-2">
-                        <form method="POST">
+            <div class="ml-auto p-2">
+                <div>
+                    <i class="far fa-star ml-3"></i>
+                    {{ object.rating }}
+                </div>
+
+                <div>
+                    {% if user.is_authenticated %}
+                        <form action="{% url "film-rate" object.slug %}" method="POST">
                             {% csrf_token %}
-                            {{ comment_form.non_field_errors }}
-
-                            <div class="form-group">
-                                {{ comment_form.title.errors }}
-                                <label for="{{ comment_form.title.id_for_label }}">Title:</label><br>
-                                {{ comment_form.title }}
-                            </div>
-
-                            <div class="form-group">
-                                {{ comment_form.content.errors }}
-                                <label for="{{ comment_form.content.id_for_label }}">Description:</label><br>
-                                {{ comment_form.content }}
-                            </div>
-
-                            <div class="form-group">
-                                <button class="btn btn-info" type="submit">Add comment</button>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="submit" name="rate" value="1" class="btn btn-info btn-sm">1</button>
+                                <button type="submit" name="rate" value="2" class="btn btn-info btn-sm">2</button>
+                                <button type="submit" name="rate" value="3" class="btn btn-info btn-sm">3</button>
+                                <button type="submit" name="rate" value="4" class="btn btn-info btn-sm">4</button>
+                                <button type="submit" name="rate" value="5" class="btn btn-info btn-sm">5</button>
                             </div>
                         </form>
-                    </div>
-
-                {% else %}
-                    <a class="btn btn-outline-info" href="{% url 'login' %}?next={{ request.path }}">
-                        Log in to add a comment!</a><br>
-                {% endif %}
-
+                    {% else %}
+                        <a class="btn btn-outline-info btn-sm" href="{% url 'login' %}?next={{ request.path }}">
+                            Log in to rate this video!
+                        </a>
+                    {% endif %}
+                </div>
             </div>
 
+        </div>
+
+
+        <!-- DESCRIPTION -->
+        <hr>
+        <p class="film-description">{{ object.description }}</p>
+
+        <!-- UPDATE AND DELETE -->
+        {% if user.is_authenticated %}
+            {% if user.is_superuser or user == object.author %}
+                <div class="film-edit-buttons">
+                    <a class="btn-sm btn-outline-info" href="{% url 'film-update' film.slug %}">Update</a>
+                    <a class="btn-sm btn-outline-danger ml-2" href="{% url 'film-delete' film.slug %}">Delete</a>
+                </div>
+                <hr>
+            {% endif %}
+        {% endif %}
+
+        <!-- COMMENTS  -->
+        <div class="ml-0 comments-section">
+
+            {% if comments %}
+                <strong class="text-secondary">{{ object.number_of_comments }}
+                    Comment{{ object.number_of_comments|pluralize }}</strong>
+                <hr>
+                {% for comment in comments %}
+
+                    <article class="media content-section mt-5">
+                        <img class="rounded-circle article-img" src="{{ comment.author.profile.photo.url }}">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <span class="article-author"><a
+                                        href="{% url 'film-user' comment.author.pk %}">{{ comment.author }}</a></span>
+                                <span class="article-title mr-2">{{ comment.title }}</span>
+                                <span class="article-date ml-5"><small> {{ comment.date_posted|date:"F d, Y" }}</small></span>
+                            </div>
+                            <p class="article-content">{{ comment.content }}</p>
+                            {% if comment.author == user or user.is_superuser %}
+                                <div class="comment-edit-buttons">
+                                    <a class="btn-sm btn-outline-info"
+                                       href="{% url 'comment-update' object.slug comment.pk %}">Edit</a>
+                                    <a class="btn-sm btn-outline-info ml-1"
+                                       href="{% url 'comment-delete' object.slug comment.pk %}">Delete</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </article>
+                {% endfor %}
+
+            {% else %}
+                <strong class="text-secondary">No comments yet...</strong>
+                <hr>
+            {% endif %}
+
+
+            {% if user.is_authenticated %}
+
+                <div class="form-group mt-2">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ comment_form.non_field_errors }}
+
+                        <div class="form-group">
+                            {{ comment_form.title.errors }}
+                            <label for="{{ comment_form.title.id_for_label }}">Title:</label><br>
+                            {{ comment_form.title }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ comment_form.content.errors }}
+                            <label for="{{ comment_form.content.id_for_label }}">Description:</label><br>
+                            {{ comment_form.content }}
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-info" type="submit">Add comment</button>
+                        </div>
+                    </form>
+                </div>
+
+            {% else %}
+                <a class="btn btn-outline-info" href="{% url 'login' %}?next={{ request.path }}">
+                    Log in to add a comment!</a><br>
+            {% endif %}
 
         </div>
+
+
+    </div>
 
 
 {% endblock %}

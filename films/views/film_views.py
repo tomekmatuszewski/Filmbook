@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import Avg
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -9,7 +10,7 @@ from hitcount.views import HitCountDetailView
 
 from films.filters import FilmFilter
 from films.forms import CommentForm, FilmForm
-from films.models import Comment, Film
+from films.models import Comment, Film, Rating
 
 
 class FilmListView(ListView):
@@ -177,6 +178,9 @@ class FilmUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         obj = self.get_object()
         return obj.author == self.request.user or self.request.user.is_superuser
 
+    def get_success_url(self):
+        return reverse_lazy("film-detail", kwargs={"slug": self.kwargs["slug"]})
+
 
 class FilmDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Film
@@ -186,3 +190,18 @@ class FilmDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user or self.request.user.is_superuser
+
+
+def film_rate(request, slug):
+    film = Film.objects.get(slug=slug)
+    user = request.user
+    rate = request.POST.get("rate")
+    if Rating.objects.filter(user=user, film=film).exists():
+        rating = Rating.objects.get(user=user, film=film)
+        rating.rate = rate
+    else:
+        rating = Rating(film=film, user=user, rate=rate)
+    rating.save()
+    film.rating = Rating.objects.filter(film=film).aggregate(Avg("rate"))["rate__avg"]
+    film.save()
+    return HttpResponseRedirect(reverse("film-detail", args=[slug]))
