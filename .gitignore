@@ -142,5 +142,8 @@ cython_debug/
 .idea/
 !media/profile_pics/.gitkeep
 !media/videos/.gitkeep
+media/videos/
+media/posters/
+media/gifs/
 *.pycache
 .pycache

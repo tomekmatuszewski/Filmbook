@@ -35,6 +35,8 @@ class Film(models.Model):
         object_id_field="object_pk",
         related_query_name="hit_count_generic_relation",
     )
+    gif = models.FileField(upload_to='gifs', blank=True)
+    poster = models.ImageField(upload_to='posters', blank=True)
 
     def __str__(self) -> str:
         return f"{self.title}"
