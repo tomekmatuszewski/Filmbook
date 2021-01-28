@@ -178,6 +178,9 @@ class FilmUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         obj = self.get_object()
         return obj.author == self.request.user or self.request.user.is_superuser
 
+    def get_success_url(self):
+        return reverse_lazy("film-detail", kwargs={"slug": self.kwargs["slug"]})
+
 
 class FilmDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Film
