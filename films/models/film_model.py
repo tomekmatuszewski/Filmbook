@@ -68,3 +68,12 @@ class Comment(models.Model):
 
     def __str__(self) -> str:
         return f"{self.title}"
+
+
+class Rating(models.Model):
+    rate = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rate")
+    film = models.ForeignKey(Film, on_delete=models.CASCADE, related_name="rate")
+
+    def __str__(self) -> str:
+        return f"{self.film} - {self.user} - {self.rate}"

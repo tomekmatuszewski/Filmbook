@@ -3,7 +3,7 @@ from django.urls import path
 from films.views import (CommentDeleteView, CommentUpdateView, FilmCreateView,
                          FilmDeleteView, FilmDetailView, FilmListView,
                          FilmUpdateView, FilmUserListView, add_friend,
-                         film_likes)
+                         film_likes, film_rate)
 from films.views.category_views import (CategoryCreateView, CategoryDeleteView,
                                         CategoryListView, CategoryUpdateView)
 
@@ -34,4 +34,5 @@ urlpatterns = [
         CommentDeleteView.as_view(),
         name="comment-delete",
     ),
+    path("film-rate/<slug:slug>", film_rate, name="film-rate"),
 ]

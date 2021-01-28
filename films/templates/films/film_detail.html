@@ -60,6 +60,24 @@
                     {% endif %}
                     </form>
                 </div>
+                <div class="p-2">
+                    {{ object.rating }}
+                </div>
+                <div class="p-2">
+                    {% if user.is_authenticated %}
+                    <form action="{% url "film-rate" object.slug %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" name="rate" value="1" class="btn btn-info btn-sm">1</button>
+                        <button type="submit" name="rate" value="2" class="btn btn-info btn-sm">2</button>
+                        <button type="submit" name="rate" value="3" class="btn btn-info btn-sm">3</button>
+                        <button type="submit" name="rate" value="4" class="btn btn-info btn-sm">4</button>
+                        <button type="submit" name="rate" value="5" class="btn btn-info btn-sm">5</button>
+                    </form>
+                    {% else %}
+                        <a class="btn btn-outline-info btn-sm" href="{% url 'login' %}?next={{ request.path }}">Log in
+                            to rate this video!</a>
+                    {% endif %}
+                </div>
             </div>
 
 
