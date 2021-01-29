@@ -36,7 +36,8 @@
                     </article>
 
                 {% endif %}
-
+            {% empty %}
+                <p class="mt-4">No films yet!</p>
             {% endfor %}
 
         {% else %}
@@ -69,7 +70,8 @@
                             </div>
                     </article>
                 {% endif %}
-
+            {% empty %}
+                <p class="mt-4">No films yet!</p>
             {% endfor %}
         {% endif %}
 

@@ -12,7 +12,6 @@ from films.filters import FilmFilter
 from films.forms import CommentForm, FilmForm
 from films.models import Comment, Film, Rating
 
-
 class FilmListView(ListView):
 
     model = Film

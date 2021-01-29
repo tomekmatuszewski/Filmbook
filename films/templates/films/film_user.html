@@ -44,12 +44,17 @@
 
                             <a class="article-title" href="{% url 'film-detail' film.slug %}">{{ film.title }}</a>
 
-                            <video controls="controls" preload="metadata">
-                                <source src="{{ film.video.url }}" type="video/mp4">
-                            </video>
+                            <div class="film-gif" >
+                                <img id="gif-img" class="active" src="{{ film.poster.url }}" onmouseover="loadGif(this, '{{ film.gif.url }}')" onmouseleave="loadGif(this, '{{ film.poster.url }}')"/>
+                            </div>
+
                             <p class="article-description">{{ film.description|truncatewords:50 }}</p>
                             <i class="far fa-comment"></i> <span>{{ film.comments.count }}</span>
                             <i class="far fa-thumbs-up ml-3"></i>  <span>{{ film.likes.count }}</span>
+                            {% if film.rating %}
+                                <i class="far fa-star ml-3"></i> <span>{{ film.rating }}</span>
+                            {% endif %}
+                            <i class="far fa-eye ml-3"></i> <span>{{ film.hit_count.hits }}</span>
                         </div>
                     </article>
                 {% else %}
@@ -68,12 +73,17 @@
 
                                 <a class="article-title" href="{% url 'film-detail' film.slug %}">{{ film.title }}</a>
 
-                                <video controls="controls" preload="metadata">
-                                    <source src="{{ film.video.url }}" type="video/mp4">
-                                </video>
+                                <div class="film-gif" >
+                                    <img id="gif-img" class="active" src="{{ film.poster.url }}" onmouseover="loadGif(this, '{{ film.gif.url }}')" onmouseleave="loadGif(this, '{{ film.poster.url }}')"/>
+                                </div>
+
                                 <p class="article-description">{{ film.description|truncatewords:50 }}</p>
                                 <i class="far fa-comment"></i> <span>{{ film.comments.count }}</span>
                                 <i class="far fa-thumbs-up ml-3"></i>  <span>{{ film.likes.count }}</span>
+                                {% if film.rating %}
+                                    <i class="far fa-star ml-3"></i> <span>{{ film.rating }}</span>
+                                {% endif %}
+                                <i class="far fa-eye ml-3"></i> <span>{{ film.hit_count.hits }}</span>
                             </div>
                         </article>
                     {% else %}
@@ -93,12 +103,17 @@
 
                                     <a class="article-title" href="{% url 'film-detail' film.slug %}">{{ film.title }}</a>
 
-                                    <video controls="controls" preload="metadata">
-                                        <source src="{{ film.video.url }}" type="video/mp4">
-                                    </video>
+                                    <div class="film-gif" >
+                                        <img id="gif-img" class="active" src="{{ film.poster.url }}" onmouseover="loadGif(this, '{{ film.gif.url }}')" onmouseleave="loadGif(this, '{{ film.poster.url }}')"/>
+                                    </div>
+
                                     <p class="article-description">{{ film.description|truncatewords:50 }}</p>
                                     <i class="far fa-comment"></i> <span>{{ film.comments.count }}</span>
                                     <i class="far fa-thumbs-up ml-3"></i>  <span>{{ film.likes.count }}</span>
+                                    {% if film.rating %}
+                                        <i class="far fa-star ml-3"></i> <span>{{ film.rating }}</span>
+                                    {% endif %}
+                                        <i class="far fa-eye ml-3"></i> <span>{{ film.hit_count.hits }}</span>
                                 </div>
                             </article>
                         {% endif %}
