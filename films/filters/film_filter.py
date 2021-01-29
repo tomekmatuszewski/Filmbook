@@ -35,6 +35,12 @@ class FilmFilter(django_filters.FilterSet):
         method="filter_by_order_views",
     )
 
+    ordering_by_rating = django_filters.ChoiceFilter(
+        label="Ordering by Rating",
+        choices=CHOICES,
+        method="filter_by_order_rating",
+    )
+
     rating = django_filters.RangeFilter(
         label="Rating Between",
         field_name="rating",
@@ -53,7 +59,14 @@ class FilmFilter(django_filters.FilterSet):
     @staticmethod
     def filter_by_order_views(queryset, name, value):
         expression = (
-            "hit_count_generic" if value == "ascending" else "-hit_count_generic"
+            "hit_count_generic" if value == "descending" else "-hit_count_generic"
+        )
+        return queryset.order_by(expression)
+
+    @staticmethod
+    def filter_by_order_rating(queryset, name, value):
+        expression = (
+            "rating" if value == "ascending" else "-rating"
         )
         return queryset.order_by(expression)
 

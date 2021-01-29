@@ -69,8 +69,12 @@
 
             <div class="ml-auto p-2">
                 <div>
-                    <i class="far fa-star ml-3"></i>
-                    {{ object.rating }}
+                    {% if object.rating %}
+                        <i class="far fa-star ml-3"></i>
+                        {{ object.rating }}
+                    {% else %}
+                        <span>Be first!</span>
+                    {% endif %}
                 </div>
 
                 <div>

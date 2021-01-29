@@ -9,6 +9,7 @@ from films.views.category_views import (CategoryCreateView, CategoryDeleteView,
 
 urlpatterns = [
     path("", FilmListView.as_view(), name="home"),
+    path("friends-films", FilmListView.as_view(template_name="films/friends_films.html"), name="friends-films"),
     path("add-film", FilmCreateView.as_view(), name="add-film"),
     path("film/<slug:slug>", FilmDetailView.as_view(), name="film-detail"),
     path("film-like/<slug:slug>", film_likes, name="film-like"),

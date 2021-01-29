@@ -44,9 +44,19 @@
                   <a class="nav-link" href="#">About </a>
               </li>
               {% if user.is_authenticated %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'add-film' %}">Add Film</a>
-                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               Films
+                  </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                   <a class="dropdown-item" href="{% url 'add-film' %}">Add Film</a>
+                   <a class="dropdown-item" href="{% url 'film-user' user.pk %}">My films</a>
+                    {% if user.profile.friends.all %}
+                        <a class="dropdown-item" href="{% url 'friends-films' %}">Private films of my friends</a>
+                    {% endif %}
+                </div>
+               </li>
               {% if user.is_superuser %}
                 <li class="nav-item dropdown">
                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"

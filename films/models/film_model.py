@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 from hitcount.models import HitCount
 from taggit.managers import TaggableManager
+from hitcount.models import HitCountMixin
 
 
 class Category(models.Model):
@@ -14,7 +15,7 @@ class Category(models.Model):
         return f"{self.name}"
 
 
-class Film(models.Model):
+class Film(models.Model, HitCountMixin):
     title = models.CharField(max_length=250)
     description = models.TextField(max_length=500)
     isPrivate = models.BooleanField()
