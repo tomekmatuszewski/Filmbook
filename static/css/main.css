@@ -83,11 +83,14 @@ footer{
 
 
 
-.authors{
-    text-align: center;
-    padding-top: 90px;
+#authors{
     align: justify;
     }
+
+#authors a{
+    display: inline;
+    margin-top: 30px;
+}
 
 .tekst{
     text-overflow: ellipsis;
