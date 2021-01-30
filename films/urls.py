@@ -3,13 +3,13 @@ from django.urls import path
 from films.views import (CommentDeleteView, CommentUpdateView, FilmCreateView,
                          FilmDeleteView, FilmDetailView, FilmListView,
                          FilmUpdateView, FilmUserListView, add_friend,
-                         film_likes, film_rate)
+                         film_likes, film_rate, FilmListFriendsView)
 from films.views.category_views import (CategoryCreateView, CategoryDeleteView,
                                         CategoryListView, CategoryUpdateView)
 
 urlpatterns = [
     path("", FilmListView.as_view(), name="home"),
-    path("friends-films", FilmListView.as_view(template_name="films/friends_films.html"), name="friends-films"),
+    path("friends-films", FilmListFriendsView.as_view(), name="friends-films"),
     path("add-film", FilmCreateView.as_view(), name="add-film"),
     path("film/<slug:slug>", FilmDetailView.as_view(), name="film-detail"),
     path("film-like/<slug:slug>", film_likes, name="film-like"),

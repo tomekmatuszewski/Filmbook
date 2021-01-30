@@ -2,22 +2,24 @@
 {% load crispy_forms_tags %}
 {% block content %}
 {% load full_url %}
-{% load ids_friends %}
 
     <div class="col-md-8 mt-5">
 
-        {% if user.is_authenticated and user.profile.friends.all %}
+
+        {% if user.is_authenticated %}
                 <hr>
                 <h5>Private films of my friends</h5>
                 {% for film in paginated_filter %}
-                    {% ids_friends user.pk film.author.pk as check_id %}
-                    {% if check_id and film.isPrivate %}
+                    {% if film.isPrivate %}
                         <hr>
                         <article class="film-content">
                                 <div class="media-body">
                                     <div class="article-metadata">
                                         <img class="rounded-circle article-img" src="{{ film.author.profile.photo.url }}"/>
                                         <span class="article-author mr-2"><a  href="{% url 'film-user' film.author.pk %}">{{ film.author }}</a></span>
+
+                                        <strong class="ml-5">Private</strong>
+
                                         <span class="article-date"><small> {{ film.publication_date|date:"F d, Y" }}</small></span>
                                     </div>
 
@@ -39,9 +41,7 @@
 
                     {% endif %}
                 {% endfor %}
-        {% else %}
-            <hr>
-            <h5>Add friends to watch their private videos !</h5>
+
         {% endif %}
 
 
