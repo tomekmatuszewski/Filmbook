@@ -159,17 +159,6 @@ class FilmUserListView(LoginRequiredMixin, ListView):
         return context
 
 
-def add_friend(request, pk):
-
-    user = User.objects.filter(pk=request.user.pk)
-
-    if pk in list(user.values_list("profile__friends__id", flat=True)):
-        request.user.profile.friends.remove(User.objects.get(pk=pk))
-    else:
-        request.user.profile.friends.add(User.objects.get(pk=pk))
-    return HttpResponseRedirect(reverse("film-user", args=[pk]))
-
-
 class FilmUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = "films/film_form.html"
     model = Film
@@ -192,7 +181,6 @@ class FilmUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_success_url(self):
         new_slug = slugify(self.request.POST['title'])
         return reverse_lazy("film-detail", kwargs={"slug": new_slug})
-
 
 
 class FilmDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

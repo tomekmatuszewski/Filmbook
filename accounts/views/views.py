@@ -2,12 +2,14 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, UpdateView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, DeleteView, UpdateView, DetailView
 
 from accounts.forms import SignUpForm
 from accounts.forms.forms import ProfileUpdateForm, UserUpdateForm
+from accounts.models import Profile
 
 
 class SignUpView(CreateView):
@@ -74,3 +76,35 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         messages.error(self.request, "Your account successfully deleted")
         return reverse_lazy("home")
+
+
+class FriendsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Profile
+    template_name = "accounts/friends.html"
+
+    def test_func(self):
+        return self.get_object() == self.request.user.profile
+
+
+def add_friend(request, pk):
+    user = User.objects.filter(pk=request.user.pk)
+    if pk in list(user.values_list("profile__friends__id", flat=True)):
+        request.user.profile.friends.remove(User.objects.get(pk=pk))
+        User.objects.get(pk=pk).profile.friends.remove(request.user)
+    else:
+        User.objects.get(pk=pk).profile.friends_requests.add(request.user)
+    return HttpResponseRedirect(reverse("film-user", args=[pk]))
+
+
+def accept_friend(request, pk):
+    user = request.user
+    friend = User.objects.get(pk=pk)
+    if request.POST.get("accept") == "accept":
+        user.profile.friends.add(friend)
+        friend.profile.friends.add(user)
+        if friend.profile.friends_requests.filter(id=user.id).exists():
+            friend.profile.friends_requests.remove(user)
+    user.profile.friends_requests.remove(friend)
+    return HttpResponseRedirect(reverse("friends-list", args=[user.pk]))
+
+
