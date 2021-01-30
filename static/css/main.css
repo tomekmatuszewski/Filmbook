@@ -81,7 +81,13 @@ footer{
 
 }
 
-/*.jumbotron{*/
-/*    padding: 20px;*/
-/*    background-color: #e9e6e6;*/
-/*}*/
+
+.authors{
+    text-align: center;
+    padding-top: 90px;
+    align: justify;
+    }
+.tekst{
+
+    text-overflow: ellipsis;
+    }
