@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -7,10 +9,11 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from hitcount.views import HitCountDetailView
-
+from django.utils.text import slugify
 from films.filters import FilmFilter
 from films.forms import CommentForm, FilmForm
 from films.models import Comment, Film, Rating
+from .update_gif_poster import update_gif_poster
 
 class FilmListView(ListView):
 
@@ -19,7 +22,7 @@ class FilmListView(ListView):
     context_object_name = "films"
     extra_context = {"title": "Home"}
     ordering = ["-publication_date"]
-    paginate_by = 10
+    paginate_by = 5
 
     def paginate_filter_queryset(self):
         context = FilmFilter(self.request.GET, queryset=self.get_queryset()).qs
@@ -123,7 +126,7 @@ class FilmUserListView(LoginRequiredMixin, ListView):
     template_name = "films/film_user.html"
     context_object_name = "films"
     ordering = ["-publication_date"]
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
         user_id = self.kwargs["pk"]
@@ -173,12 +176,23 @@ class FilmUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = FilmForm
     success_url = reverse_lazy("home")
 
+    def form_valid(self, form):
+        if not self.request.FILES.get('video'):
+            pass
+        else:
+            new_title = slugify(self.request.POST.get('title'))
+            update_gif_poster(self.object, new_title, self.request.FILES.get('video'))
+
+        return super().form_valid(form)
+
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user or self.request.user.is_superuser
 
     def get_success_url(self):
-        return reverse_lazy("film-detail", kwargs={"slug": self.kwargs["slug"]})
+        new_slug = slugify(self.request.POST['title'])
+        return reverse_lazy("film-detail", kwargs={"slug": new_slug})
+
 
 
 class FilmDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
