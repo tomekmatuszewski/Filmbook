@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="authors">
+    <h2>The authors of project:</h2>
+
+
+    Jagoda <a href="https://github.com/WronskaBlack" target="_blank">github.com/WronskaBlack</a><br>
+
+
+    Tomasz <a href="https://github.com/tomekmatuszewski" target="_blank">github.com/tomekmatuszewski</a><br>
+
+
+    Damian <a href="https://github.com/Jurgos88" target="_blank">github.com/Jurgos88</a><br>
+
+
+    Sylwester <a href="https://github.com/Sylwester1122" target="_blank">github.com/Sylwester1122</a>
+
+
+    <p class="tekst"><br>This project has been created thanks to the SDA Academy.<br> Thanks to their staff and teachings,
+        you can see the
+        final result of the website here.</p>
+</div>
+<div class="sidebar">
+
+    <div class="jumbotron">
+
+        <h3>Contact</h3>
+        <form method="GET">
+            <div id="div_id_name" class="form-group"><label for="id_name" class="">
+                Your name
+            </label>
+                <div class=""><input type="text" name="name" class="textinput textInput form-control" id="id_name">
+                </div>
+                <div id="div_id_email" class="form-group"><label for="id_email" class="">
+                    Your email
+                </label>
+                    <div class=""><input type="text" name="email" class="textinput textInput form-control"
+                                         id="id_email">
+                    </div>
+                    <div id="div_id_text" class="form-group"><label for="id_text" class="">
+                        Message
+                    </label>
+                        <div class="">
+
+                            <textarea rows="4" cols="50" name="comment" class="textinput textInput form-control"
+                                      id="id_text">Enter your text... </textarea>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary mt-4">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
