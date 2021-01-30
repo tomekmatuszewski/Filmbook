@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="container">
+        <br>
+            {% if object.friends_requests.all %}
+            <div>
+            <h3>Friend requests:</h3>
+            <br>
+            {% for friend in object.friends_requests.all %}
+                <form action="{% url "accept-friend" friend.pk %}" method="POST">
+                    {% csrf_token %}
+
+                    <img class="rounded-circle article-img" src="{{ friend.profile.photo.url }}">
+                    <span class="article-author mr-2">
+                        <a href="{% url 'film-user' friend.pk %}">{{ friend.username }}</a>
+                    </span>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="submit" name="accept" value="accept" class="btn btn-outline-success btn-sm">
+                            accept
+                        </button>
+                        <button type="submit" name="accept" value="decline" class="btn btn-outline-danger btn-sm">
+                            decline
+                        </button>
+                    </div>
+                </form>
+                <br>
+            {% endfor %}
+        </div>
+
+    <hr>
+    {% endif %}
+        <br>
+        <div>
+
+            <h3>Friends:</h3>
+
+
+                {% for friend in object.friends.all %}
+                    <div>
+                    <img class="rounded-circle article-img" src="{{ friend.profile.photo.url }}">
+                    <span class="article-author mr-2">
+                        <a href="{% url 'film-user' friend.pk %}">{{ friend.username }}</a>
+                    </span>
+                    </div>
+                    <br>
+
+                {% endfor %}
+
+        </div>
+
+
+    </div>
+
+
+{% endblock %}

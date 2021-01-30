@@ -2,7 +2,8 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path
 
 from accounts.views.views import (MyLoginView, MyPasswordChangeView,
-                                  SignUpView, UserDeleteView, UserUpdateView)
+                                  SignUpView, UserDeleteView, UserUpdateView,
+                                  FriendsView, accept_friend, add_friend)
 
 urlpatterns = [
     path("signup/", SignUpView.as_view(), name="signup"),
@@ -17,4 +18,7 @@ urlpatterns = [
     path(
         "account/profile/<int:pk>/delete", UserDeleteView.as_view(), name="user-delete"
     ),
+    path("friend-list/<int:pk>/", FriendsView.as_view(), name="friends-list"),
+    path("friends/<int:pk>", add_friend, name="friends-action"),
+    path("accept-friend/<int:pk>/", accept_friend, name="accept-friend")
 ]
