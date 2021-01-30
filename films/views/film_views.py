@@ -5,12 +5,14 @@ from django.db.models import Avg
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
+from django.utils.text import slugify
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from hitcount.views import HitCountDetailView
-from django.utils.text import slugify
+
 from films.filters import FilmFilter
 from films.forms import CommentForm, FilmForm
 from films.models import Comment, Film, Rating
+
 from .update_gif_poster import update_gif_poster
 
 
@@ -62,7 +64,7 @@ class FilmListFriendsView(ListView):
     def get_queryset(self):
         user = User.objects.filter(pk=self.request.user.pk)
         friends_ids = user.values_list("profile__friends__id", flat=True)
-        return Film.objects.filter(author__id__in=friends_ids)
+        return Film.objects.filter(author__id__in=friends_ids).filter(isPrivate=True)
 
     def paginate_filter_queryset(self):
         context = FilmFilter(self.request.GET, queryset=self.get_queryset()).qs
@@ -206,11 +208,11 @@ class FilmUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy("home")
 
     def form_valid(self, form):
-        if not self.request.FILES.get('video'):
+        if not self.request.FILES.get("video"):
             pass
         else:
-            new_title = slugify(self.request.POST.get('title'))
-            update_gif_poster(self.object, new_title, self.request.FILES.get('video'))
+            new_title = slugify(self.request.POST.get("title"))
+            update_gif_poster(self.object, new_title, self.request.FILES.get("video"))
 
         return super().form_valid(form)
 
@@ -219,7 +221,7 @@ class FilmUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return obj.author == self.request.user or self.request.user.is_superuser
 
     def get_success_url(self):
-        new_slug = slugify(self.request.POST['title'])
+        new_slug = slugify(self.request.POST["title"])
         return reverse_lazy("film-detail", kwargs={"slug": new_slug})
 
 

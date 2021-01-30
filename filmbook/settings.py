@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     "django_filters",
     "taggit",
     "hitcount",
-    "crudbuilder"
+    "crudbuilder",
 ]
 
 MIDDLEWARE = [

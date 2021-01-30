@@ -65,9 +65,7 @@ class FilmFilter(django_filters.FilterSet):
 
     @staticmethod
     def filter_by_order_rating(queryset, name, value):
-        expression = (
-            "rating" if value == "ascending" else "-rating"
-        )
+        expression = "rating" if value == "ascending" else "-rating"
         return queryset.order_by(expression)
 
     @staticmethod

@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, DeleteView, UpdateView, DetailView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 
 from accounts.forms import SignUpForm
 from accounts.forms.forms import ProfileUpdateForm, UserUpdateForm
@@ -106,5 +106,3 @@ def accept_friend(request, pk):
             friend.profile.friends_requests.remove(user)
     user.profile.friends_requests.remove(friend)
     return HttpResponseRedirect(reverse("friends-list", args=[user.pk]))
-
-

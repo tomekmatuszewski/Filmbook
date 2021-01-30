@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <div class="container">
-        <br>
+    <div class="col-md-5">
+
             {% if object.friends_requests.all %}
             <div>
-            <h3>Friend requests:</h3>
-            <br>
+            <h3 class="mt-5">Friend requests:</h3>
+            <hr>
             {% for friend in object.friends_requests.all %}
-                <form action="{% url "accept-friend" friend.pk %}" method="POST">
+                <form class="mt-2" action="{% url "accept-friend" friend.pk %}" method="POST">
                     {% csrf_token %}
-
-                    <img class="rounded-circle article-img" src="{{ friend.profile.photo.url }}">
-                    <span class="article-author mr-2">
-                        <a href="{% url 'film-user' friend.pk %}">{{ friend.username }}</a>
-                    </span>
+                    <div class="friends-invitation">
+                        <img class="rounded-circle article-img" src="{{ friend.profile.photo.url }}">
+                        <span class="article-author ml-3">
+                            <a href="{% url 'film-user' friend.pk %}">{{ friend.username }}</a>
+                        </span>
+                    </div>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="submit" name="accept" value="accept" class="btn btn-outline-success btn-sm">
                             accept
@@ -30,20 +31,20 @@
 
     <hr>
     {% endif %}
-        <br>
+
         <div>
 
-            <h3>Friends:</h3>
-
+            <h3 class="mt-5">Friends:</h3>
+                    <hr>
 
                 {% for friend in object.friends.all %}
                     <div>
-                    <img class="rounded-circle article-img" src="{{ friend.profile.photo.url }}">
-                    <span class="article-author mr-2">
+                    <img class="rounded-circle article-img mt-2" src="{{ friend.profile.photo.url }}">
+                    <span class="article-author ml-3">
                         <a href="{% url 'film-user' friend.pk %}">{{ friend.username }}</a>
                     </span>
                     </div>
-                    <br>
+                    <hr>
 
                 {% endfor %}
 

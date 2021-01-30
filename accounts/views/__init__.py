@@ -1,3 +1,2 @@
-from .views import (MyLoginView, MyPasswordChangeView, SignUpView,
-                    UserDeleteView, UserUpdateView,
-                    FriendsView, accept_friend, add_friend)
+from .views import (FriendsView, MyLoginView, MyPasswordChangeView, SignUpView,
+                    UserDeleteView, UserUpdateView, accept_friend, add_friend)

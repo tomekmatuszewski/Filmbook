@@ -82,9 +82,29 @@ footer{
 }
 
 
+.article-author a{
+    text-decoration: none;
+}
+
+
+.article-author a:hover{
+    color: red;
+}
+
+.friends-invitation{
+    float: left;
+    width: 40%;
+}
+
+.btn-group{
+    margin-top: 10px;
+    margin-left: 50px;
+}
+
+
 
 #authors{
-    align: justify;
+    text-align: justify;
     }
 
 #authors a{

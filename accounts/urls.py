@@ -1,9 +1,10 @@
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 
-from accounts.views.views import (MyLoginView, MyPasswordChangeView,
-                                  SignUpView, UserDeleteView, UserUpdateView,
-                                  FriendsView, accept_friend, add_friend)
+from accounts.views.views import (FriendsView, MyLoginView,
+                                  MyPasswordChangeView, SignUpView,
+                                  UserDeleteView, UserUpdateView,
+                                  accept_friend, add_friend)
 
 urlpatterns = [
     path("signup/", SignUpView.as_view(), name="signup"),
@@ -20,5 +21,5 @@ urlpatterns = [
     ),
     path("friend-list/<int:pk>/", FriendsView.as_view(), name="friends-list"),
     path("friends/<int:pk>", add_friend, name="friends-action"),
-    path("accept-friend/<int:pk>/", accept_friend, name="accept-friend")
+    path("accept-friend/<int:pk>/", accept_friend, name="accept-friend"),
 ]

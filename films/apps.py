@@ -6,5 +6,3 @@ class FilmsConfig(AppConfig):
 
     def ready(self):
         from films import signals
-
-

@@ -1,9 +1,9 @@
 from django.urls import path
 
 from films.views import (CommentDeleteView, CommentUpdateView, FilmCreateView,
-                         FilmDeleteView, FilmDetailView, FilmListView,
-                         FilmUpdateView, FilmUserListView,
-                         film_likes, film_rate, FilmListFriendsView)
+                         FilmDeleteView, FilmDetailView, FilmListFriendsView,
+                         FilmListView, FilmUpdateView, FilmUserListView,
+                         film_likes, film_rate)
 from films.views.category_views import (CategoryCreateView, CategoryDeleteView,
                                         CategoryListView, CategoryUpdateView)
 
