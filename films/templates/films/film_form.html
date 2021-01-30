@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+
     <div class="book-form-content col-md-9 mt-5">
+      <div id="loading-circle" class="loading"></div>
       <form class="book_form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.non_field_errors }}
@@ -47,7 +50,7 @@
         </div>
 
 
-        <input type="submit" value="Submit" class="btn btn-primary"/>
+        <input type="submit" onclick="show_loading();" value="Submit" class="btn btn-primary"/>
 
       </form>
   </div>
