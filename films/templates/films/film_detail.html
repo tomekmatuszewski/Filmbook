@@ -32,9 +32,9 @@
         <div class="d-flex">
 
             <div class="p-2">
-                <span class="badge badge-info">{{ object.category }}</span>
+                <a href="{% url 'home'%}?category={{ object.category.id }}"><span class="badge badge-info">{{ object.category }}</span></a>
                 {% for tag in object.tags.all %}
-                    <span class="badge badge-secondary"><span>#</span>{{ tag.name }}</span>
+                   <a href="{% url 'home'%}?tags={{ tag.name }}"><span class="badge badge-secondary"><span>#</span>{{ tag.name }}</span></a>
                 {% endfor %}
             </div>
 
