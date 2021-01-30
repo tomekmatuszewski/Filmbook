@@ -7,7 +7,7 @@
     <div class="col-md-8 mt-5">
 
         {% if user.is_authenticated %}
-
+            <hr>
             <h5>Public films</h5>
             {% for film in paginated_filter %}
                 {% if not film.isPrivate %}
