@@ -60,7 +60,7 @@ class Film(models.Model, HitCountMixin):
 class Comment(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    date_posted = models.DateField(default=timezone.now)
+    date_posted = models.DateTimeField(default=timezone.now)
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     film = models.ForeignKey(Film, on_delete=models.CASCADE, related_name="comments")
