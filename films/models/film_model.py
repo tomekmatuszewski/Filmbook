@@ -24,7 +24,7 @@ class Film(models.Model, HitCountMixin):
     slug = models.SlugField(unique=True, blank=True, null=True)
 
     category = models.ForeignKey(
-        Category, on_delete=models.DO_NOTHING, related_name="films"
+        Category, on_delete=models.SET_NULL, related_name="films", null=True
     )
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="films")
 
