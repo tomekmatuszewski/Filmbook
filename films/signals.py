@@ -16,9 +16,9 @@ def create_gif_poster(sender, instance, created, **kwargs):
 
     if created:
 
-        file_name = instance.video.path.split("/")[-1]
-        dest_file_name_gif = file_name.split(".")[0] + ".gif"
-        dest_file_name_poster = file_name.split(".")[0] + ".png"
+        file_name = instance.slug
+        dest_file_name_gif = file_name + ".gif"
+        dest_file_name_poster = file_name + ".png"
 
         dest_path_gif = f"{BASE_DIR}/media/gifs/{dest_file_name_gif}"
         dest_path_poster = f"{BASE_DIR}/media/posters/{dest_file_name_poster}"
