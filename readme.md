@@ -15,7 +15,7 @@ Technologies used: Django, Bootstrap, HTML, CSS, JavaScript
     - docker-compose up
 
     - to create superuser and load fixture (if needed)-> other termianl
-        - docker exec -it django_filmbook_web_1 bash
+        - docker exec -it filmbook_webapp_1 bash
         - python manage.py loaddata films.json
         - python manage.py createsuperuser
    
