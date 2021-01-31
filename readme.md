@@ -1,7 +1,8 @@
 ### Filmbook -> SDA Final Project 
 
 Technologies used: Django, Bootstrap, HTML, CSS, JavaScript
-Django Library used:
+
+    Django Library used:
     - Django Filter
     - Django Crispy Forms
     - Django Taggit
