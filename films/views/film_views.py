@@ -22,8 +22,10 @@ class FilmListView(ListView):
     template_name = "films/home.html"
     context_object_name = "films"
     extra_context = {"title": "Home"}
-    ordering = ["-publication_date"]
-    paginate_by = 5
+    paginate_by = 4
+
+    def get_queryset(self):
+        return Film.objects.filter(isPrivate=False).order_by("-publication_date")
 
     def paginate_filter_queryset(self):
         context = FilmFilter(self.request.GET, queryset=self.get_queryset()).qs

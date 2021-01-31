@@ -1,6 +1,6 @@
 ### Filmbook -> SDA Final Project 
 
-Technologies used: Django, Bootstrap, HTML, CSS, JavaScript
+Technologies used: Django, Bootstrap, HTML, CSS, JavaScript, SQLite, Docker
 
     Django Library used:
     - Django Filter

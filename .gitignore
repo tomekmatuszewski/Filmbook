@@ -143,11 +143,14 @@ cython_debug/
 
 !media/profile_pics/.gitkeep
 !media/videos/.gitkeep
-!media/gifs/.gitkeep
 !media/posters/.gitkeep
+!media/gifs/.gitkeep
 
 media/videos/
 media/gifs/
 media/posters/
+media/profile_pics/
+
+
 *.pycache
 .pycache
