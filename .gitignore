@@ -140,12 +140,14 @@ dmypy.json
 cython_debug/
 .idea
 .idea/
+
 !media/profile_pics/.gitkeep
 !media/videos/.gitkeep
 !media/gifs/.gitkeep
 !media/posters/.gitkeep
+
 media/videos/
-media/posters/
 media/gifs/
+media/posters/
 *.pycache
 .pycache
