@@ -35,5 +35,13 @@ Technologies used: Django, Bootstrap, HTML, CSS, JavaScript, SQLite, Docker
     - http://127.0.0.1:8000
     - register and login
 
+Screenshots:
 
+![Screen1](readme_media/screen1.png)
+![Screen2](readme_media/screen2.png)
+![Screen3](readme_media/screen3.png)
+![Screen4](readme_media/screen4.png)
+![Screen5](readme_media/screen5.png)
+![Screen6](readme_media/screen6.png)
+![Screen7](readme_media/screen7.png)
 
